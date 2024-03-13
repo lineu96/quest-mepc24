@@ -1,0 +1,79 @@
+---
+title: "Um pouco sobre questionários"
+output:
+  html_document:                    
+    #toc: true                       
+    #toc_depth: 3                    
+    #toc_float:                      
+    #  collapsed: true
+    #  smooth_scroll: true
+    #number_sections: true           
+    theme: flatly
+    #spacelab
+    #default,cerulean,journal,flatly,readable,spacelab,
+    #united,cosmo,lumen,paper,sandstone,simplex,yeti
+    
+    highlight: espresso
+    #default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, and textmate
+    #css: styles.css                
+    fig_width: 7                    
+    fig_height: 6                   
+    fig_caption: true               
+    fig_align: 'center'
+    #code_folding: hide              
+#    keep_md: true                   
+---
+
+---
+
+# De onde vem os dados?
+
+A matéria prima de qualquer análise estatística é o conjunto de dados. Diversas são as formas, mecanismos e instrumentos para coleta. Os dados podem vir de questionários, amostragens, experimentos, observacionais, repositórios, bancos de dados, web (processamento).
+
+---
+
+# Os questionários
+
+Basicamente, um questionário é um instrumento de pesquisa composto por uma série de perguntas. Trata-se de um instrumento bastante útil, mas diversos cuidados devem ser tomados visando a precisão das respostas por parte dos respondentes e a qualidade dos dados. Para formulação de um questionário devemos nos atentar ao objetivo da pesquisa, ao público alvo, aos tipos de perguntas e o que esperamos receber. Podemos formular questões de resposta única, resposta múltipla, escala de Likert ou ainda fazer uma pergunta aberta.
+
+Questões abertas são mais difíceis de analisar devido à liberdada dada ao respondente, mas em alguns casos são necessárias. As questões fechadas são preferíveis, uma vez que são mais fáceis de serem tratadas após a execução do questionário pois as possibilidades de resposta eram restritas. Quanto aos enunciados, preocupe-se com a clareza, evitando interpretações ambiguas. Evite também questões tendenciosas, constrangedoras e desconfortáveis, pois as respostas não serão precisas. 
+
+Avalie a necessidade de cada pergunta feita, evite redundâncias ou variáveis você pode obter a partir das respostas. Por exemplo, pense a respeito destas 2 perguntas: "Você tem filhos?", com as opções sim ou não; e a questão "Quantos filhos você tem?", de resposta aberta em que o respondente insere o algarismo. Note que se você fizer apenas a segunda pergunta, você já saberá se o indivíduo tem ou não filhos (se a resposta for igual 0, o indivíduo está afirmando que não tem filhos). Outro exemplo: não há necessidade de pedir data de nascimento e idade do indivíduo, pois com a data de nascimento somos capazes de obter a idade. Ou ainda: peso, altura e IMC, pois com peso e altura podemos obter o IMC.
+
+Após formular seu questionário lembre-se de testá-lo. E sempre peça a opinião de alguém não envolvido no processo de construção, olhares não viesados sempre são bem vindos para nos alertar sobre problemas como: perguntas ambiguas, erros ortográficos, opções insuficientes para questões fechadas, questões delicadas, etc. 
+
+---
+
+# Tenho os dados, e agora?
+
+Após coletar os dados, lembre-se de tratá-los. Verifique para cada variável se houve respostas absurdas. Por exemplo um indivíduo que informa que tem 5 metros de altura, ou 450 kg, ou até mesmo 250 anos de idade. Este tipo de resposta vai "sujar" sua análise. Por isso é importante a validação do questionário, avaliação de respostas inesperadas, buscar mecanismos para checagem de coerência das respostas e assim por diante.
+
+Podemos pensar no tratamento (automático) de anomalias, no processamento (automático) e adequação de respostas em texto e até mesmo em procedimentos para exclusão (questão, resposta, respondente ou questionário).
+
+---
+
+# Pagar na entrada ou na saída?
+
+Reflita sobre esta frase... Você prefere investir mais tempo na organização das questões a fim de obter um conjunto de dados mais limpo e com possivelmente menor necessidade de tratamento pós coleta, ou um questionário menos preocupado com estas questões e que vai requerer um cuidado bem maior no que diz respeito ao pós processamento até chegar a um conjunto de dados limpo para análise.
+
+---
+
+
+<center>
+
+<table><tr>
+
+<td> <img src="img/dest-texto-2.png" alt="Drawing" style="width: 250px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/transversais.png" alt="Drawing" style="width: 300px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/ufpr-transparent-600px.png" alt="Drawing" style="width: 200px;"/> </td>
+
+</center>
+
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Relatórios HTML utilizando Rmarkdown</title>
+
+<script src="site_libs/header-attrs-2.22/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MEPC 2024</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-play"></span>
+     
+    Introdução
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li>
+      <a href="0-questionarios.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Um pouco sobre questionários
+      </a>
+    </li>
+    <li>
+      <a href="0-exploratoria.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Um pouco sobre análise exploratória
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-bar-chart"></span>
+     
+    Análise do questionário
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li>
+      <a href="1-acad.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões acadêmicas
+      </a>
+    </li>
+    <li>
+      <a href="2-aluno.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões pessoais
+      </a>
+    </li>
+    <li>
+      <a href="3-extra.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões extra
+      </a>
+    </li>
+    <li>
+      <a href="4-bivar.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Análises bivariadas
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-plus"></span>
+     
+    Material extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/lineu96/mepc23/blob/master/respostas/mepc23%20(respostas)%20-%20Respostas%20ao%20formul%C3%A1rio%201.csv">
+        <span class="fa fa-arrow-right"></span>
+         
+        Dados
+      </a>
+    </li>
+    <li>
+      <a href="exemplo.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Como gerar um relatório html
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://lineu96.github.io/">
+    <span class="fa fa-user"></span>
+     
+    Lineu A.C.F
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lineu96">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<style type="text/css">
+table.header {
+    margin-top: 10px;
+    border-collapse: unset;
+}
+table.header > tbody {
+    border-bottom: 0px;
+    border-top: 0px;
+}
+</style>
+
+<table class="header" width="100%" align="center">
+  <tr>
+    <td align="left" valign="bottom" width="90px">
+      <a href="http://www.prppg.ufpr.br/site/blog/2021/02/19/metodos-estatisticos-em-pesquisa-cientifica-2021-1-remota/">
+        <img src="img/prppg2.png" width="100%" />
+        <center>
+        <img src="img/transversais.png" width="30%" />
+        </center>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Relatórios HTML utilizando Rmarkdown</h1>
+
+</div>
+
+
+<hr />
+<div id="r-markdown" class="section level1">
+<h1>R Markdown</h1>
+<p>Markdown é uma linguagem simples de marcação que permite a geração de
+documentos nos formatos HTML, PDF, e MS Word.</p>
+<p>O R Markdown, como o prórpio nome sugere, une a linguagem R com a
+linguagem de marcação Markdown. Desta forma, podemos escrever textos
+utilizando a linguagem de marcação e, em meio ao texto, inserir códigos
+R que geram saídas numéricas, tabelas, gráficos, etc.</p>
+<center>
+<img src="img/hex-rmd.png" width=150 height=150>
+</center>
+<hr />
+<p>Este breve tutorial foi preparado como material de apoio aos alunos
+da disciplina <a
+href="http://www.prppg.ufpr.br/site/metodos-estatisticos-em-pesquisa-cientifica-2020-1/">Métodos
+Estatísticos em Pesquisa Científica</a> com intuito de servir como um
+pequeno referencial de como gerar relatórios com RMarkdown em formato
+HTML tendo em vista que na primeira aula do curso os alunos tiveram
+contato com a <a
+href="https://lineu96.github.io/mepc2020/quest2020.html">análise do
+perfil da turma 2020</a> que foi feita neste formato.</p>
+<hr />
+</div>
+<div id="como-funciona" class="section level1">
+<h1>Como funciona?</h1>
+<p>O funcionamento do RMarkdown é diferente dos editores de textos
+tradicionais, como o MS word e outros, em que você edita um único
+arquivo.</p>
+<p>Ao trabalhar com Rmarkdown terá dois arquivos: o primeiro deles é
+editável, isto é, nele você fará as edições como acrescentar texto,
+imagens e eventualmente códigos R; este arquivo tem extensão .Rmd. O
+segundo arquivo é resultado das configurações e inputs do primeiro, ou
+seja, é o nosso documento final e, como já mencionado, pode ser HTML,
+PDF e até mesmo MS Word, contudo focaremos no formato HTML.</p>
+<hr />
+<div id="criar-um-arquivo-rmd" class="section level2">
+<h2>Criar um arquivo Rmd</h2>
+<p>O vídeo abaixo mostra como criar um arquivo RMarkdown no Rstudio.
+Note que quando geramos o arquivo nos é fornecido uma versão preenchida
+por exemplos:</p>
+<p>Caso o vídeo não seja iniciado automaticamente, pressione o botão
+direito do mouse e selecione o ‘play’ ou ‘mostrar controles’.</p>
+<video width="1000" height="400" autoplay loop>
+<source src="img/gera.webm" type="video/webm">
+<p>Your browser does not support the video tag. </video></p>
+<hr />
+</div>
+<div id="renderizar-o-arquivo" class="section level2">
+<h2>Renderizar o arquivo</h2>
+<p>Para compilar, isto é, gerar o output no formato HTML, basta clicar
+no botão knit ou teclar <code>ctrl+shift+k</code>. Na primeira vez que
+fazemos isso nos é pedido para salvar o arquivo numa pasta de nossa
+preferência:</p>
+<p>Caso o vídeo não seja iniciado automaticamente, pressione o botão
+direito do mouse e selecione o ‘play’ ou ‘mostrar controles’.</p>
+<video width="1000" height="400" autoplay loop>
+<source src="img/knit.webm" type="video/webm">
+<p>Your browser does not support the video tag. </video></p>
+<hr />
+</div>
+</div>
+<div id="preâmbulo" class="section level1">
+<h1>Preâmbulo</h1>
+<p>O preâmbulo é o que está no topo do nosso arquivo .Rmd e é
+responsável pelas configurações do nosso documento final, na extensão
+desejada. Por default, o preâmbulo quando geramos um novo arquivo é algo
+do tipo:</p>
+<pre class="r"><code>---
+title: &quot;Exemplo de relatório utilizando Rmarkdown&quot;
+output: html_document
+---</code></pre>
+<p>Contudo diversas outras opções são possíveis, um exemplo de cabeçalho
+com várias configurações de estilo para o formato de output html:</p>
+<pre class="r"><code>---
+title: &quot;Título do Documento&quot;
+author: # Autores
+- Autor 1
+- Autor 2
+- Autor 3
+
+output:
+  html_document: 
+    
+    # Sumário
+    toc: true 
+    toc_depth: 3 # Profundidade do sumário                   
+    toc_float:                      
+      collapsed: true # Sumário flutuante (lateral)
+    
+    number_sections: true # Seções numeradas
+    
+    # Aparência
+    theme: flatly
+    # Temas possíveis:
+    # default,cerulean,journal,flatly,readable,spacelab,
+    # united,cosmo,lumen,paper,sandstone,simplex,yeti
+    
+    # Códigos R no texto
+    highlight: espresso
+    # Temas possíveis:
+    # default, tango, pygments, kate, monochrome, 
+    # espresso, zenburn, haddock, and textmate
+    #css: styles.css                
+    
+    # Configurações globais de imagens
+    fig_width: 7  # Largura                  
+    fig_height: 6 # Altura                  
+    fig_caption: true # Legenda              
+    fig_align: &#39;center&#39; # Posição
+
+    # Esconder o código
+    code_folding: hide 
+---</code></pre>
+<p>Lembre-se que após toda alteração feita no arquivo .Rmd você
+renderizar novamente para que as atualizações sejam gravadas no output
+HTML.</p>
+<hr />
+</div>
+<div id="parte-texto" class="section level1">
+<h1>Parte texto</h1>
+<p>Agora que sabemos como criar, renderizar e configurar a aparência do
+nosso RMarkdown, vejamos como trabalhar com títulos, formatação do
+texto, listas, tabelas, links, imagens, ou seja, tudo que não depende do
+R.</p>
+<hr />
+<div id="seções" class="section level2">
+<h2>Seções</h2>
+<p>Seções e subseções podem ser criadas através do #, a quantidade de #
+define a hierarquia. Então o primeiro # é o início da seção, ## uma
+seção dentro da seção, e assim por diante:</p>
+<pre class="r"><code># Nível 1
+## Nível 2
+### Nível 3
+#### Nível 4</code></pre>
+<hr />
+</div>
+<div id="parágrafo" class="section level2">
+<h2>Parágrafo</h2>
+<p>Novos parágrafos são criados com quebras de linha.</p>
+<pre class="r"><code>Parágrafo 1 - texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto. 
+
+Parágrafo 2 - texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto. </code></pre>
+<hr />
+</div>
+<div id="texto-formatado" class="section level2">
+<h2>Texto formatado</h2>
+<p>Podemos inserir textos formatados, como itálico, negrito, tachado e
+sobrescrito. Vejamos como proceder:</p>
+<hr />
+<div id="itálico" class="section level3">
+<h3><em>Itálico</em></h3>
+<pre class="r"><code>_itálico_ ou *itálico*</code></pre>
+<hr />
+</div>
+<div id="negrito" class="section level3">
+<h3><strong>Negrito</strong></h3>
+<pre class="r"><code>__negrito__ ou **negrito**</code></pre>
+<hr />
+</div>
+<div id="tachado" class="section level3">
+<h3><del>Tachado</del></h3>
+<pre class="r"><code>~~Tachado~~</code></pre>
+<hr />
+</div>
+<div id="textosobrescrito" class="section level3">
+<h3>Texto<sup>sobrescrito</sup></h3>
+<pre class="r"><code>texto^sobrescrito^</code></pre>
+<hr />
+</div>
+</div>
+<div id="listas" class="section level2">
+<h2>Listas</h2>
+<p>Podemos ao longo do texto criar listas de tópicos e estas podem ser
+ordenadas ou não ordenadas:</p>
+<div id="desordenadas" class="section level3">
+<h3>Desordenadas</h3>
+<pre class="r"><code> - Item 1 
+ - Item 2
+ - Item 3</code></pre>
+<ul>
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+</ul>
+<hr />
+</div>
+<div id="ordenadas" class="section level3">
+<h3>Ordenadas</h3>
+<pre class="r"><code> 1. Item 1
+ 2. Item 2
+ 3. Item 3</code></pre>
+<ol style="list-style-type: decimal">
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="tabelas" class="section level2">
+<h2>Tabelas</h2>
+<p>Tabelas em Markdown são feitas da seguinte forma:</p>
+<pre class="r"><code>Coluna 1          | Coluna 2
+----------------- | -----------------
+Linha 1, Coluna 1 | Linha 1, Coluna 2
+Linha 2, Coluna 1 | Linha 2, Coluna 2</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>Coluna 1</th>
+<th>Coluna 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linha 1, Coluna 1</td>
+<td>Linha 1, Coluna 2</td>
+</tr>
+<tr class="even">
+<td>Linha 2, Coluna 1</td>
+<td>Linha 2, Coluna 2</td>
+</tr>
+</tbody>
+</table>
+<p>Os elementos podem ser alinhados de diferentes formas utilizando ‘:’
+:</p>
+<pre class="r"><code>Coluna 1            | Coluna 2
+:-----------------: | :-----------------:
+Linha 1, Coluna 1   | Linha 1, Coluna 2
+Linha 2, Coluna 1   | Linha 2, Coluna 2</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Coluna 1</th>
+<th align="center">Coluna 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Linha 1, Coluna 1</td>
+<td align="center">Linha 1, Coluna 2</td>
+</tr>
+<tr class="even">
+<td align="center">Linha 2, Coluna 1</td>
+<td align="center">Linha 2, Coluna 2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+<div id="links-e-imagens" class="section level2">
+<h2>Links e imagens</h2>
+<p>Links podem ser inseridos em meio ao texto:</p>
+<pre class="r"><code>[Texto do link](url.com)</code></pre>
+<p><a href="url.com">Texto do link</a>.</p>
+<p>O processo para imagens é similar:</p>
+<pre class="r"><code>![Legenda](caminho.extensao)</code></pre>
+<div class="figure">
+<img src="img/ufpr.jpg" width="200" alt="" />
+<p class="caption">Logo UFPR</p>
+</div>
+<hr />
+</div>
+</div>
+<div id="chunks" class="section level1">
+<h1>Chunks</h1>
+<p>Os chunks são os elementos no Rmarkdown dentro dos quais podemos
+inserir código R e configurá-los para exibir o que desejamos. Para abrir
+um chunk em meio ao texto basta teclar <code>ctrl+alt+i</code>, ou
+escrever os seguintes fragmentos (sem #):</p>
+<pre class="r"><code>#```{r}
+
+#```</code></pre>
+<p>Em geral estamos interessados em uma das seguintes alternativas:</p>
+<ul>
+<li>Exibir o código e o resultado.</li>
+<li>Apenas exibir o código, sem executá-lo.</li>
+<li>Exibir apenas o resultado, omitindo o código.</li>
+</ul>
+<p>E para realizar tais tarefas existem configurações a serem
+especificadas no chunk:</p>
+<div id="código-e-resultado" class="section level2">
+<h2>Código e resultado</h2>
+<p>Para mostrar código e resultado basta utilizar o chunk tradicional,
+na forma mais básica:</p>
+<pre class="r"><code>#```{r}</code></pre>
+<pre class="r"><code>1+1</code></pre>
+<pre><code>## [1] 2</code></pre>
+</div>
+<div id="apenas-código" class="section level2">
+<h2>Apenas código</h2>
+<p>Utilize o argumento <code>eval</code> que define se o código será ou
+não avaliado:</p>
+<pre class="r"><code>#```{r, eval=FALSE}</code></pre>
+<pre class="r"><code>1+1</code></pre>
+<pre><code>## [1] 2</code></pre>
+</div>
+<div id="apenas-resultado" class="section level2">
+<h2>Apenas resultado</h2>
+<p>Para omitir o código basta utilizar o argumento <code>echo</code> na
+opção FALSE:</p>
+<pre class="r"><code>#```{r, echo=FALSE}</code></pre>
+<pre><code>## [1] 2</code></pre>
+<hr />
+</div>
+<div id="imagens" class="section level2">
+<h2>Imagens</h2>
+<p>Como sabemos, o R é uma linguagem destinada principalmente para fins
+estatísticos, e em muitas situações fazemos uso do R para gerar
+gráficos. Como o Rmarkdown suporta e interpreta códigos R em meio ao
+texto e um gráfico gerado no R não é nada mais que a saída de um código,
+podemos inseri-lo no nosso relatório através de um chunk, uma opção bem
+mais razoável do que exportar o gráfico e depois inserí-lo como imagem
+externa da forma que já foi apresentada:</p>
+<pre class="r"><code>#```{r}
+#plot(density(rnorm(100)), 
+#     xlab = &#39;Valores&#39;, 
+#     ylab = &#39;Densidade&#39;,
+#     main = &#39;Gráfico de densidade de 100 valores\n de uma distribuição #Normal(0,1)&#39;)
+#```</code></pre>
+<pre class="r"><code>plot(density(rnorm(100)), 
+     xlab = &#39;Valores&#39;, 
+     ylab = &#39;Densidade&#39;,
+     main = &#39;Gráfico de densidade de 100 valores\n de uma distribuição Normal(0,1)&#39;)</code></pre>
+<p><img src="exemplo_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>Existem, para esta situação, uma série de argumentos que regulam
+tamanho e posição da imagem. Os principais são:</p>
+<ul>
+<li><p><code>fig.align</code>: define o alinhamento. Pode ser :
+<code>'default'</code>, <code>'left'</code>, <code>'right'</code>,
+<code>'center'</code>.</p></li>
+<li><p><code>fig.height</code>: define a altura da imagem.</p></li>
+<li><p><code>fig.width</code>: define a largura da imagem.</p></li>
+</ul>
+<p>Existem diversos outros argumentos para customizar elementos de
+exibição, mas com estes é possível solucionar a maior parte dos
+problemas referentes a imagens resultantes de códigos R e acrescentados
+no documento via chunk.</p>
+<pre class="r"><code>#```{r, fig.align=&#39;center&#39;, fig.width=5, fig.height=5}
+#plot(density(rnorm(100)), 
+#     xlab = &#39;Valores&#39;, 
+#     ylab = &#39;Densidade&#39;,
+#     main = &#39;Gráfico de densidade de 100 valores\n de uma distribuição #Normal(0,1)&#39;)
+#```</code></pre>
+<pre class="r"><code>plot(density(rnorm(100)), 
+     xlab = &#39;Valores&#39;, 
+     ylab = &#39;Densidade&#39;,
+     main = &#39;Gráfico de densidade de 100 valores\n de uma distribuição Normal(0,1)&#39;)</code></pre>
+<p><img src="exemplo_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="considerações-finais" class="section level1">
+<h1>Considerações finais</h1>
+<p>Como mencionado no começo deste material o objetivo era mostrar as
+principais funcionalidades para geração de relatórios no formato HTML
+utilizando Rmarkdown. Vale novamente ressaltar que esse é apenas um dos
+potenciais outputs deste tipo de documento, que pode ser convertido para
+formatos como PDF e, em outros casos mais gerais, serve também para
+geração de apresentações em slides.</p>
+<p>Contudo, tratando do formato HTML, é uma forma leve, flexível e
+estética de se gerar relatórios e reportar resultados em que a maior
+vantagem é a possibilidade de inserir outputs do R, o que evita
+situações como, por exemplo, gerar uma tabela ou gráfico no R, exportar
+e depois reimportar em um editor de texto.</p>
+<p>Além disso, o Rmarkdown facilita a vida do analista em situações
+recorrentes, por exemplo, imagine a seguinte situação: toda semana
+receber um conjunto de dados com a mesma estrutura e precisar gerar um
+relatório contendo resumos numéricos, tabelas e gráficos. Utilizando o
+Rmarkdown bastaria alterar o conjunto de dados e toda a análise seria
+feita automáticamente.</p>
+<p>Além de outros formatos de output não tratados aqui, vale citar a
+existência dos arquivos .Rnw, que possuem a mesma sintaxe e estrutura de
+documentos de texto do formato Latex (.Tex) que permitem, tal como no
+Rmarkdown, a presença de códigos R em meio ao texto.</p>
+<hr />
+</div>
+<div id="links-úteis" class="section level1">
+<h1>Links úteis</h1>
+<ul>
+<li><a href="https://rmarkdown.rstudio.com/">Página do
+Rmarkdown</a>.</li>
+<li><a
+href="https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">Folha
+de cola Rmarkdown</a>.</li>
+<li><a
+href="http://www.leg.ufpr.br/~fernandomayer/palestra/useR-2015/Rmarkdown-rautu.html">Rmarkdown-rautu,
+material do Prof. Fernando Mayer</a>.</li>
+<li><a
+href="https://github.com/lineu96/mepc2020/tree/master/html_exemplo">Arquivos
+para geração deste tutorial</a></li>
+</ul>
+<hr />
+<center>
+<table>
+<tr>
+<td>
+<img src="img/dest-texto-2.png" alt="Drawing" style="width: 250px;"/>
+</td>
+<td>
+           
+</td>
+<td>
+<img src="img/transversais.png" alt="Drawing" style="width: 300px;"/>
+</td>
+<td>
+           
+</td>
+<td>
+<img src="img/ufpr-transparent-600px.png" alt="Drawing" style="width: 200px;"/>
+</td>
+</center>
+<div class="tocify-extend-page" data-unique="tocify-extend-page"
+style="height: 0;">
+
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

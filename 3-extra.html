@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Questões extra</title>
+
+<script src="site_libs/header-attrs-2.22/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MEPC 2024</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-play"></span>
+     
+    Introdução
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li>
+      <a href="0-questionarios.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Um pouco sobre questionários
+      </a>
+    </li>
+    <li>
+      <a href="0-exploratoria.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Um pouco sobre análise exploratória
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-bar-chart"></span>
+     
+    Análise do questionário
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li>
+      <a href="1-acad.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões acadêmicas
+      </a>
+    </li>
+    <li>
+      <a href="2-aluno.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões pessoais
+      </a>
+    </li>
+    <li>
+      <a href="3-extra.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões extra
+      </a>
+    </li>
+    <li>
+      <a href="4-bivar.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Análises bivariadas
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-plus"></span>
+     
+    Material extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/lineu96/mepc23/blob/master/respostas/mepc23%20(respostas)%20-%20Respostas%20ao%20formul%C3%A1rio%201.csv">
+        <span class="fa fa-arrow-right"></span>
+         
+        Dados
+      </a>
+    </li>
+    <li>
+      <a href="exemplo.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Como gerar um relatório html
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://lineu96.github.io/">
+    <span class="fa fa-user"></span>
+     
+    Lineu A.C.F
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lineu96">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<style type="text/css">
+table.header {
+    margin-top: 10px;
+    border-collapse: unset;
+}
+table.header > tbody {
+    border-bottom: 0px;
+    border-top: 0px;
+}
+</style>
+
+<table class="header" width="100%" align="center">
+  <tr>
+    <td align="left" valign="bottom" width="90px">
+      <a href="http://www.prppg.ufpr.br/site/blog/2021/02/19/metodos-estatisticos-em-pesquisa-cientifica-2021-1-remota/">
+        <img src="img/prppg2.png" width="100%" />
+        <center>
+        <img src="img/transversais.png" width="30%" />
+        </center>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Questões extra</h1>
+
+</div>
+
+
+<hr />
+<div id="quantos-anos-você-acha-que-a-pessoa-da-foto-abaixo-tem"
+class="section level3">
+<h3>Quantos anos você acha que a pessoa da foto abaixo tem?</h3>
+<center>
+<table>
+<tr>
+<td>
+<img src="img/lineu1.jpeg" alt="Drawing" style="width: 250px;"/>
+<figcaption>
+Foto 1
+</figcaption>
+</td>
+<td>
+<img src="img/lineu2.jpeg" alt="Drawing" style="width: 250px;"/>
+<figcaption>
+Foto 2
+</figcaption>
+</td>
+</tr>
+</table>
+</center>
+<div id="geral" class="section level4 tabset tabset-fade tabset-pills">
+<h4 class="tabset tabset-fade tabset-pills">Geral</h4>
+<div id="tabela-1" class="section level5">
+<h5>Tabela 1</h5>
+<center>
+<table style="width:62%;">
+<colgroup>
+<col width="13%" />
+<col width="18%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Classes</th>
+<th align="center">Frequencia</th>
+<th align="center">Frequencia relativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">[20,25]</td>
+<td align="center">48</td>
+<td align="center">0.24</td>
+</tr>
+<tr class="even">
+<td align="center">(25,30]</td>
+<td align="center">116</td>
+<td align="center">0.58</td>
+</tr>
+<tr class="odd">
+<td align="center">(30,35]</td>
+<td align="center">31</td>
+<td align="center">0.155</td>
+</tr>
+<tr class="even">
+<td align="center">(35,40]</td>
+<td align="center">4</td>
+<td align="center">0.02</td>
+</tr>
+<tr class="odd">
+<td align="center">(40,45]</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">(45,50]</td>
+<td align="center">1</td>
+<td align="center">0.005</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="tabela-2" class="section level5">
+<h5>Tabela 2</h5>
+<center>
+<table style="width:83%;">
+<colgroup>
+<col width="12%" />
+<col width="16%" />
+<col width="11%" />
+<col width="13%" />
+<col width="16%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Minimo</th>
+<th align="center">Quartil_1</th>
+<th align="center">Media</th>
+<th align="center">Mediana</th>
+<th align="center">Quartil_3</th>
+<th align="center">Maximo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">20</td>
+<td align="center">26</td>
+<td align="center">28.18</td>
+<td align="center">28</td>
+<td align="center">30</td>
+<td align="center">47</td>
+</tr>
+</tbody>
+</table>
+<table style="width:56%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Amplitude</th>
+<th align="center">Variancia</th>
+<th align="center">Desvio_padrao</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">27</td>
+<td align="center">12.89</td>
+<td align="center">3.591</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="gráfico-1" class="section level5">
+<h5>Gráfico 1</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-2" class="section level5">
+<h5>Gráfico 2</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-3" class="section level5">
+<h5>Gráfico 3</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-4" class="section level5">
+<h5>Gráfico 4</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-5" class="section level5">
+<h5>Gráfico 5</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-6" class="section level5">
+<h5>Gráfico 6</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-7" class="section level5">
+<h5>Gráfico 7</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-8" class="section level5">
+<h5>Gráfico 8</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="entre-fotos"
+class="section level4 tabset tabset-fade tabset-pills">
+<h4 class="tabset tabset-fade tabset-pills">Entre fotos</h4>
+<div id="tabela-1-1" class="section level5">
+<h5>Tabela 1</h5>
+<center>
+<table style="width:44%;">
+<colgroup>
+<col width="13%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Classes</th>
+<th align="center">C/ barba</th>
+<th align="center">S/ barba</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">[20,25]</td>
+<td align="center">15</td>
+<td align="center">33</td>
+</tr>
+<tr class="even">
+<td align="center">(25,30]</td>
+<td align="center">60</td>
+<td align="center">56</td>
+</tr>
+<tr class="odd">
+<td align="center">(30,35]</td>
+<td align="center">22</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="center">(35,40]</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">(40,45]</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">(45,50]</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="tabela-2-1" class="section level5">
+<h5>Tabela 2</h5>
+<center>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="12%" />
+<col width="16%" />
+<col width="10%" />
+<col width="13%" />
+<col width="16%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Minimo</th>
+<th align="center">Quartil_1</th>
+<th align="center">Media</th>
+<th align="center">Mediana</th>
+<th align="center">Quartil_3</th>
+<th align="center">Maximo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>C/ barba</strong></td>
+<td align="center">22</td>
+<td align="center">27</td>
+<td align="center">28.99</td>
+<td align="center">29.5</td>
+<td align="center">30.25</td>
+<td align="center">40</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>S/ barba</strong></td>
+<td align="center">20</td>
+<td align="center">25</td>
+<td align="center">27.37</td>
+<td align="center">27</td>
+<td align="center">29</td>
+<td align="center">47</td>
+</tr>
+</tbody>
+</table>
+<table style="width:76%;">
+<colgroup>
+<col width="20%" />
+<col width="16%" />
+<col width="16%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Amplitude</th>
+<th align="center">Variancia</th>
+<th align="center">Desvio_padrao</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>C/ barba</strong></td>
+<td align="center">18</td>
+<td align="center">10.17</td>
+<td align="center">3.189</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>S/ barba</strong></td>
+<td align="center">27</td>
+<td align="center">14.42</td>
+<td align="center">3.797</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="gráfico-1-1" class="section level5">
+<h5>Gráfico 1</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-2-1" class="section level5">
+<h5>Gráfico 2</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-3-1" class="section level5">
+<h5>Gráfico 3</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-4-1" class="section level5">
+<h5>Gráfico 4</h5>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+</div>
+<div
+id="observe-as-figuras-abaixo.-uma-delas-se-chama-bouba-e-a-outra-kiki.-quem-é-quem"
+class="section level3 tabset tabset-fade tabset-pills">
+<h3 class="tabset tabset-fade tabset-pills">Observe as figuras abaixo.
+Uma delas se chama “Bouba” e a outra “Kiki”. Quem é quem?</h3>
+<center>
+<img src="img/bk.jpg">
+</center>
+<hr />
+<p>Não há resposta certa! Entenda: <a
+href="https://www.bbc.com/portuguese/geral-39685606"
+class="uri">https://www.bbc.com/portuguese/geral-39685606</a>.</p>
+<hr />
+<div id="tabela" class="section level4">
+<h4>Tabela</h4>
+<center>
+<table style="width:94%;">
+<colgroup>
+<col width="45%" />
+<col width="18%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Niveis</th>
+<th align="center">Frequencia</th>
+<th align="center">Frequencia.relativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">a da esquerda se chama bouba, a da direita se chama
+kiki.</td>
+<td align="center">49</td>
+<td align="center">0.245</td>
+</tr>
+<tr class="even">
+<td align="center">a da esquerda se chama kiki, a da direita se chama
+bouba.</td>
+<td align="center">151</td>
+<td align="center">0.755</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="gráfico" class="section level4">
+<h4>Gráfico</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="comparativo" class="section level4">
+<h4>Comparativo</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="quantos-quadrados-há-na-figura"
+class="section level3 tabset tabset-fade tabset-pills">
+<h3 class="tabset tabset-fade tabset-pills">Quantos quadrados há na
+figura?</h3>
+<center>
+<img src="img/quadrados.png">
+</center>
+<hr />
+<p>A resposta certa é: 40. Confira: <a
+href="https://www.youtube.com/watch?v=EN61RHZcHTc"
+class="uri">https://www.youtube.com/watch?v=EN61RHZcHTc</a>.</p>
+<hr />
+<div id="tabela-1-2" class="section level4">
+<h4>Tabela 1</h4>
+<center>
+<table style="width:62%;">
+<colgroup>
+<col width="13%" />
+<col width="18%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Classes</th>
+<th align="center">Frequencia</th>
+<th align="center">Frequencia relativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">[10,15]</td>
+<td align="center">1</td>
+<td align="center">0.005025</td>
+</tr>
+<tr class="even">
+<td align="center">(15,20]</td>
+<td align="center">14</td>
+<td align="center">0.07035</td>
+</tr>
+<tr class="odd">
+<td align="center">(20,25]</td>
+<td align="center">13</td>
+<td align="center">0.06533</td>
+</tr>
+<tr class="even">
+<td align="center">(25,30]</td>
+<td align="center">45</td>
+<td align="center">0.2261</td>
+</tr>
+<tr class="odd">
+<td align="center">(30,35]</td>
+<td align="center">57</td>
+<td align="center">0.2864</td>
+</tr>
+<tr class="even">
+<td align="center">(35,40]</td>
+<td align="center">67</td>
+<td align="center">0.3367</td>
+</tr>
+<tr class="odd">
+<td align="center">(40,45]</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">(45,50]</td>
+<td align="center">2</td>
+<td align="center">0.01005</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="tabela-2-2" class="section level4">
+<h4>Tabela 2</h4>
+<center>
+<table style="width:83%;">
+<colgroup>
+<col width="12%" />
+<col width="16%" />
+<col width="11%" />
+<col width="13%" />
+<col width="16%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Minimo</th>
+<th align="center">Quartil_1</th>
+<th align="center">Media</th>
+<th align="center">Mediana</th>
+<th align="center">Quartil_3</th>
+<th align="center">Maximo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">10</td>
+<td align="center">27</td>
+<td align="center">31.94</td>
+<td align="center">33</td>
+<td align="center">36.5</td>
+<td align="center">47</td>
+</tr>
+</tbody>
+</table>
+<table style="width:56%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Amplitude</th>
+<th align="center">Variancia</th>
+<th align="center">Desvio_padrao</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">37</td>
+<td align="center">46.45</td>
+<td align="center">6.815</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="gráfico-1-2" class="section level4">
+<h4>Gráfico 1</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-2-2" class="section level4">
+<h4>Gráfico 2</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-3-2" class="section level4">
+<h4>Gráfico 3</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-4-2" class="section level4">
+<h4>Gráfico 4</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-5-1" class="section level4">
+<h4>Gráfico 5</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-6-1" class="section level4">
+<h4>Gráfico 6</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-7-1" class="section level4">
+<h4>Gráfico 7</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-8-1" class="section level4">
+<h4>Gráfico 8</h4>
+<p><img src="3-extra_files/figure-html/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="section" class="section level3">
+<h3></h3>
+<center>
+<table>
+<tr>
+<td>
+<img src="img/dest-texto-2.png" alt="Drawing" style="width: 250px;"/>
+</td>
+<td>
+           
+</td>
+<td>
+<img src="img/transversais.png" alt="Drawing" style="width: 300px;"/>
+</td>
+<td>
+           
+</td>
+<td>
+<img src="img/ufpr-transparent-600px.png" alt="Drawing" style="width: 200px;"/>
+</td>
+</center>
+<div class="tocify-extend-page" data-unique="tocify-extend-page"
+style="height: 0;">
+
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

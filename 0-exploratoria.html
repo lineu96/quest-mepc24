@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Um pouco sobre análise exploratória</title>
+
+<script src="site_libs/header-attrs-2.22/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MEPC 2024</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-play"></span>
+     
+    Introdução
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li>
+      <a href="0-questionarios.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Um pouco sobre questionários
+      </a>
+    </li>
+    <li>
+      <a href="0-exploratoria.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Um pouco sobre análise exploratória
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-bar-chart"></span>
+     
+    Análise do questionário
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li>
+      <a href="1-acad.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões acadêmicas
+      </a>
+    </li>
+    <li>
+      <a href="2-aluno.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões pessoais
+      </a>
+    </li>
+    <li>
+      <a href="3-extra.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Questões extra
+      </a>
+    </li>
+    <li>
+      <a href="4-bivar.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Análises bivariadas
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-plus"></span>
+     
+    Material extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/lineu96/mepc23/blob/master/respostas/mepc23%20(respostas)%20-%20Respostas%20ao%20formul%C3%A1rio%201.csv">
+        <span class="fa fa-arrow-right"></span>
+         
+        Dados
+      </a>
+    </li>
+    <li>
+      <a href="exemplo.html">
+        <span class="fa fa-arrow-right"></span>
+         
+        Como gerar um relatório html
+      </a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://lineu96.github.io/">
+    <span class="fa fa-user"></span>
+     
+    Lineu A.C.F
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lineu96">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<style type="text/css">
+table.header {
+    margin-top: 10px;
+    border-collapse: unset;
+}
+table.header > tbody {
+    border-bottom: 0px;
+    border-top: 0px;
+}
+</style>
+
+<table class="header" width="100%" align="center">
+  <tr>
+    <td align="left" valign="bottom" width="90px">
+      <a href="http://www.prppg.ufpr.br/site/blog/2021/02/19/metodos-estatisticos-em-pesquisa-cientifica-2021-1-remota/">
+        <img src="img/prppg2.png" width="100%" />
+        <center>
+        <img src="img/transversais.png" width="30%" />
+        </center>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Um pouco sobre análise exploratória</h1>
+
+</div>
+
+
+<hr />
+<p>Ok… Vencemos a etapa de montar o questionário, tratar as respostas,
+filtrar respostas coerentes e etc. Agora precisamos começar nossa
+análise. Em geral começamos sempre por uma análise exploratória do nosso
+conjunto de dados.</p>
+<hr />
+<p>Em uma análise exploratória buscamos sintetizar a informação presente
+nos dados por meio de tabelas, gráficos e medidas.</p>
+<p>Cuidados devem ser tomados no que diz respeito à escolha do tipo de
+representação. Devemos, por exemplo, evitar que o gráfico fique
+desproporcional ou privilegiando determinados valores a fim de induzir
+conclusões àqueles que utilizam o gráfico como forma de
+visualização.</p>
+<p>A escolha do gráfico está diretamente ligada ao tipo das variáveis.
+Além disso, existem gráficos que permitem análises de mais de uma
+variável simultâneamente a fim de verificar como uma influencia a
+outra(s).</p>
+<hr />
+<div id="tipos-de-variáveis" class="section level1">
+<h1>Tipos de variáveis</h1>
+<p>Existem dois tipos de variáveis: as numéricas
+(<strong>quantitativas</strong>) e as não numéricas
+(<strong>qualitativas</strong>):</p>
+<p><strong>Variáveis Quantitativas</strong>: assumem valores
+numéricos.</p>
+<p>Podem ser:</p>
+<ul>
+<li><p><strong>Discretas</strong>: características mensuráveis que podem
+assumir apenas um número finito ou infinito contável de valores e,
+assim, somente fazem sentido valores inteiros.</p></li>
+<li><p><strong>Contínuas</strong>: características mensuráveis que
+assumem valores em uma escala contínua, isto é, na reta real.</p></li>
+</ul>
+<p><strong>Variáveis Qualitativas</strong>: são as características
+definidas categorias, ou seja, representam uma classificação dos
+indivíduos e não uma característica numérica.</p>
+<p>Podem ser:</p>
+<ul>
+<li><p><strong>Nominais</strong>: não existe ordenação nem peso entre as
+categorias.</p></li>
+<li><p><strong>Ordinais</strong>: existe uma ordenação entre as
+categorias.</p></li>
+</ul>
+<hr />
+<p>Tendo isso em mente podemos começar a pensar em que medidas e
+gráficos podemos utilizar para representar nossas variáveis (análises
+univariadas) e também estudar a relação entre estas variáveis (análises
+bi, tri e multivariadas)</p>
+<hr />
+<p>Algumas possibilidades de gráficos para cada tipo de variável
+são:</p>
+<ul>
+<li><p><strong>Qualitativa nominal ou ordinal</strong>: setores, barras,
+linhas.</p></li>
+<li><p><strong>Quantitativa discreta</strong>: barras, linhas,
+histograma, boxplot, densidade.</p></li>
+<li><p><strong>Quantitativas contínuas</strong>: histograma, densidade,
+boxplot.</p></li>
+<li><p><strong>Análises bivariadas</strong>:</p>
+<ul>
+<li><em>Quantivativa vs Quantitativa</em>: Diagrama de dispersão.</li>
+<li><em>Qualitativa vs Quantitativa</em>: Boxplots.</li>
+<li><em>Qualitativa vs Qualitativa</em>: Gráfico de mosaico ou
+barras.</li>
+</ul></li>
+</ul>
+<hr />
+<p>Considere um conjunto de dados genérico, composto por uma variável
+quantitativa discreta, duas variáveis quantitativas contínuas e duas
+variáveis qualitativas nominais. Veja alguns exemplos das representações
+mencionadas:</p>
+<hr />
+<div id="tabelas"
+class="section level3 tabset tabset-fade tabset-pills">
+<h3 class="tabset tabset-fade tabset-pills">Tabelas</h3>
+<hr />
+<div id="tabela-de-frequências-para-variável-categórica"
+class="section level4">
+<h4>Tabela de frequências para variável categórica</h4>
+<center>
+<table style="width:61%;">
+<colgroup>
+<col width="12%" />
+<col width="18%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Niveis</th>
+<th align="center">Frequencia</th>
+<th align="center">Frequencia.relativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">a</td>
+<td align="center">31</td>
+<td align="center">0.31</td>
+</tr>
+<tr class="even">
+<td align="center">b</td>
+<td align="center">33</td>
+<td align="center">0.33</td>
+</tr>
+<tr class="odd">
+<td align="center">c</td>
+<td align="center">36</td>
+<td align="center">0.36</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="tabela-de-frequências-absolutas-para-variável-discreta"
+class="section level4">
+<h4>Tabela de frequências absolutas para variável discreta</h4>
+<center>
+<table style="width:61%;">
+<colgroup>
+<col width="12%" />
+<col width="18%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Niveis</th>
+<th align="center">Frequencia</th>
+<th align="center">Frequencia.relativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">10</td>
+<td align="center">0.1</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">19</td>
+<td align="center">0.19</td>
+</tr>
+<tr class="odd">
+<td align="center">4</td>
+<td align="center">14</td>
+<td align="center">0.14</td>
+</tr>
+<tr class="even">
+<td align="center">5</td>
+<td align="center">11</td>
+<td align="center">0.11</td>
+</tr>
+<tr class="odd">
+<td align="center">6</td>
+<td align="center">16</td>
+<td align="center">0.16</td>
+</tr>
+<tr class="even">
+<td align="center">7</td>
+<td align="center">10</td>
+<td align="center">0.1</td>
+</tr>
+<tr class="odd">
+<td align="center">8</td>
+<td align="center">8</td>
+<td align="center">0.08</td>
+</tr>
+<tr class="even">
+<td align="center">9</td>
+<td align="center">2</td>
+<td align="center">0.02</td>
+</tr>
+<tr class="odd">
+<td align="center">10</td>
+<td align="center">2</td>
+<td align="center">0.02</td>
+</tr>
+<tr class="even">
+<td align="center">11</td>
+<td align="center">4</td>
+<td align="center">0.04</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="tabela-de-frequências-por-faixas-de-valores"
+class="section level4">
+<h4>Tabela de frequências por faixas de valores</h4>
+<center>
+<table style="width:62%;">
+<colgroup>
+<col width="13%" />
+<col width="18%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Classes</th>
+<th align="center">Frequencia</th>
+<th align="center">Frequencia relativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">[15,20]</td>
+<td align="center">1</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="even">
+<td align="center">(20,25]</td>
+<td align="center">8</td>
+<td align="center">0.08</td>
+</tr>
+<tr class="odd">
+<td align="center">(25,30]</td>
+<td align="center">10</td>
+<td align="center">0.1</td>
+</tr>
+<tr class="even">
+<td align="center">(30,35]</td>
+<td align="center">19</td>
+<td align="center">0.19</td>
+</tr>
+<tr class="odd">
+<td align="center">(35,40]</td>
+<td align="center">17</td>
+<td align="center">0.17</td>
+</tr>
+<tr class="even">
+<td align="center">(40,45]</td>
+<td align="center">15</td>
+<td align="center">0.15</td>
+</tr>
+<tr class="odd">
+<td align="center">(45,50]</td>
+<td align="center">16</td>
+<td align="center">0.16</td>
+</tr>
+<tr class="even">
+<td align="center">(50,55]</td>
+<td align="center">9</td>
+<td align="center">0.09</td>
+</tr>
+<tr class="odd">
+<td align="center">(55,60]</td>
+<td align="center">5</td>
+<td align="center">0.05</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+<div id="tabela-de-medidas-descritivas" class="section level4">
+<h4>Tabela de medidas descritivas</h4>
+<center>
+<table style="width:83%;">
+<colgroup>
+<col width="12%" />
+<col width="16%" />
+<col width="11%" />
+<col width="13%" />
+<col width="16%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Minimo</th>
+<th align="center">Quartil_1</th>
+<th align="center">Media</th>
+<th align="center">Mediana</th>
+<th align="center">Quartil_3</th>
+<th align="center">Maximo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">19.81</td>
+<td align="center">32.58</td>
+<td align="center">38.92</td>
+<td align="center">39.22</td>
+<td align="center">46.36</td>
+<td align="center">59.87</td>
+</tr>
+</tbody>
+</table>
+<table style="width:56%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Amplitude</th>
+<th align="center">Variancia</th>
+<th align="center">Desvio_padrao</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">40.06</td>
+<td align="center">92.16</td>
+<td align="center">9.6</td>
+</tr>
+</tbody>
+</table>
+</center>
+<hr />
+</div>
+</div>
+<div id="gráficos" class="section level3">
+<h3>Gráficos</h3>
+<hr />
+<div id="representação-de-frequências"
+class="section level4 tabset tabset-fade tabset-pills">
+<h4 class="tabset tabset-fade tabset-pills">Representação de
+Frequências</h4>
+<hr />
+<div id="gráfico-de-setores" class="section level5">
+<h5>Gráfico de setores</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-de-barras-para-variável-qualitativa"
+class="section level5">
+<h5>Gráfico de barras para variável qualitativa</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-de-barras-para-variável-discreta"
+class="section level5">
+<h5>Gráfico de barras para variável discreta</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-de-linhas" class="section level5">
+<h5>Gráfico de linhas</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="distribuição-de-variáveis-numéricas"
+class="section level4 tabset tabset-fade tabset-pills">
+<h4 class="tabset tabset-fade tabset-pills">Distribuição de variáveis
+numéricas</h4>
+<hr />
+<div id="histograma" class="section level5">
+<h5>Histograma</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="densidade" class="section level5">
+<h5>Densidade</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="boxplot" class="section level5">
+<h5>Boxplot</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="histograma-boxplot" class="section level5">
+<h5>Histograma + Boxplot</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="histograma-boxplot-densidade" class="section level5">
+<h5>Histograma + Boxplot + Densidade</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="representações-bivariadas"
+class="section level4 tabset tabset-fade tabset-pills">
+<h4 class="tabset tabset-fade tabset-pills">Representações
+bivariadas</h4>
+<hr />
+<div id="diagrama-de-dispersão" class="section level5">
+<h5>Diagrama de dispersão</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="boxplots-para-níveis-de-um-fator" class="section level5">
+<h5>Boxplots para níveis de um fator</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="barras-para-variáveis-categóricas" class="section level5">
+<h5>Barras para variáveis categóricas</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="barras-proporcionais-para-2-variáveis-categóricas"
+class="section level5">
+<h5>Barras proporcionais para 2 variáveis categóricas</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="gráfico-de-mosaico-para-2-variáveis-categóricas"
+class="section level5">
+<h5>Gráfico de mosaico para 2 variáveis categóricas</h5>
+<p><img src="0-exploratoria_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="section" class="section level1">
+<h1></h1>
+<center>
+<table>
+<tr>
+<td>
+<img src="img/dest-texto-2.png" alt="Drawing" style="width: 250px;"/>
+</td>
+<td>
+           
+</td>
+<td>
+<img src="img/transversais.png" alt="Drawing" style="width: 300px;"/>
+</td>
+<td>
+           
+</td>
+<td>
+<img src="img/ufpr-transparent-600px.png" alt="Drawing" style="width: 200px;"/>
+</td>
+</center>
+<div class="tocify-extend-page" data-unique="tocify-extend-page"
+style="height: 0;">
+
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+---
+title: "Métodos Estatísticos em Pesquisa Científica"
+subtitle: "Oferta 2024"
+output:
+  html_document:                    
+    #toc: true                       
+    #toc_depth: 3                    
+    #toc_float:                      
+    #  collapsed: true
+    #  smooth_scroll: true
+    #number_sections: true           
+    theme: flatly
+    #spacelab
+    #default,cerulean,journal,flatly,readable,spacelab,
+    #united,cosmo,lumen,paper,sandstone,simplex,yeti
+    
+    highlight: espresso
+    #default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, and textmate
+    #css: styles.css                
+    fig_width: 7                    
+    fig_height: 6                   
+    fig_caption: true               
+    fig_align: 'center'
+    #code_folding: hide              
+#    keep_md: true
+---
+
+---
+
+# Sobre este material
+
+---
+
+Para a primeira aula da disciplina de Métodos Estatísticos em Pesquisa Científica um questionário é repassado aos alunos via formulário do Google. Trata-se de uma ferramente bastante útil para coleta de dados, que ainda fornece um recurso de análise gráfica, que pode ser usada para análises preliminares, contudo é um instrumento limitado em alguns sentidos.
+
+Nossa ideia é coletar informações a respeito dos participantes da disciplina e realizar uma análise dos dados obtidos de forma a discutir as características dos alunos e varrer parte do conteúdo referente à análise exploratória. 
+
+Após a realização do questionário os dados são exportados em formato csv e importados no software R, onde a análise é efetuada. 
+
+---
+
+Esta atividade é feita desde a primeira oferta da disciplina e a cada ano aprimoramos tanto o formulário quanto as análises feitas. Contribuíram para este material:
+
+ - 2018 - **Hektor Dannyel Vieira Brasil.**
+ - 2019 - **Kally Chung.**
+ - 2020 - 2024 - **Lineu Alberto Cavazani de Freitas.**
+
+Todas as versões foram desenvolvidas sob a orientação do professor coordenador da disciplina: **Paulo Justiniano Ribeiro Junior**.
+
+---
+
+O questionário deste ano foi dividido nas seguintes seções:
+
+ - Questões acadêmicas.
+ - Questões pessoais.
+ - Questões extra.
+
+Quando possível fizemos um comparativo das respostas com os anos anteriores.
+
+---
+
+## Vamos conhecer a turma?
+
+A apresentação fica por nossa conta!
+
+Você pode acompanhar a apresentação do material no YouTube por meio do link: (INCLUIR LINK DA AULA).
+
+---
+
+<center>
+
+<table><tr>
+
+<td> <img src="img/dest-texto-2.png" alt="Drawing" style="width: 250px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/transversais.png" alt="Drawing" style="width: 300px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/ufpr-transparent-600px.png" alt="Drawing" style="width: 200px;"/> </td>
+
+</center>
+
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

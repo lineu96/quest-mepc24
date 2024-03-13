@@ -1,0 +1,363 @@
+---
+title: "Análises bivariadas"
+output:
+  html_document:                    
+    #toc: true                       
+    #toc_depth: 3                    
+    #toc_float:                      
+    #  collapsed: true
+    #  smooth_scroll: true
+    #number_sections: true           
+    theme: flatly
+    #spacelab
+    #default,cerulean,journal,flatly,readable,spacelab,
+    #united,cosmo,lumen,paper,sandstone,simplex,yeti
+    
+    highlight: espresso
+    #default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, and textmate
+    #css: styles.css                
+    fig_width: 7                    
+    fig_height: 6                   
+    fig_caption: true               
+    fig_align: 'center'
+    #code_folding: hide              
+#    keep_md: true                   
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
+# source("./R/pacotes.R")
+# source("./R/funcoes-auxiliares.R")
+# source("./R/importacao-respostas.R")
+```
+
+Análises bivariadas tem como objetivo buscar compreender como uma variável se comporta na presença de outra. Isto é, neste tipo de análise buscamos verificar se há relação entre duas variáveis.
+
+---
+
+### Entre duas variáveis qualitativas
+
+---
+
+#### Situação de emprego x Expectativa após PG {.tabset .tabset-fade .tabset-pills}
+
+---
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+temp <- data.frame(emprego = quest_24$emprego,
+                   expectativa = quest_24$expectativa_pos_pg)
+
+
+levels(temp$emprego) <- c("Vínc.Formal", "Trab.Ocasional", 
+                          "Trab.Contrato", "Bolsista", 
+                          "Outro")
+
+levels(temp$expectativa) <- c("Conseguir Emprego", "Aumento salarial", 
+                              "Continuar a pesquisa", "Outro")
+
+table <- as.data.frame(table(temp))
+
+```
+</center>
+
+---
+
+##### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+
+table$freq_r <- table$Freq/sum(table$Freq)
+table$freq_r <- round(table$freq_r, 2)
+
+ggplot(table, 
+       aes(x=emprego, y=Freq, fill=expectativa)) + 
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1, 
+           position = 'dodge') +  
+  ylim(c(0, 
+         (max(table$Freq)+ (max(table$Freq)*0.1))))+
+  geom_text(aes(label = Freq),
+            #hjust=-0.1, 
+            color=1, 
+            size=8, 
+            position=position_dodge(width=0.9),
+            vjust=-0.5
+  )+
+  xlab("Emprego") +
+  ylab("Frequência") +
+  ggtitle("Situação de emprego x Expectativa após PG")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          #axis.text = element_blank(),
+                          #legend.title = element_blank(),
+                          text = element_text(size=15)) 
+```
+
+---
+
+##### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+ggplot(table, 
+       aes(x=emprego, y=Freq, fill=expectativa)) + 
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1)+ 
+  #  geom_text(aes(label = freq_r),
+  #            hjust=0.5, 
+  #            color=1, 
+  #            size=8, 
+  #            position=position_stack(), 
+  #            vjust=1)+
+  xlab("Emprego") +
+  ylab("Proporção") +
+  ggtitle("Situação de emprego x Expectativa após PG")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          #axis.text = element_blank(),
+                          #legend.title = element_blank(),
+                          text = element_text(size=15)) 
+```
+
+---
+
+##### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+
+table2 <- as.matrix(prop.table(table(quest_24$expectativa_pos_pg,
+                                     quest_24$emprego), 
+                               mar = 2))
+
+
+table2 <- as.data.frame(table2)
+
+names(table2) <- c('expectativa', 'emprego', 'Freq')
+
+
+levels(table2$emprego) <- c("Vínc.Formal", "Trab.Ocasional", 
+                          "Trab.Contrato", "Bolsista", 
+                          "Outro")
+
+levels(table2$expectativa) <- c("Conseguir Emprego", "Aumento salarial", 
+                              "Continuar a pesquisa", "Outro")
+
+
+ggplot(table2, 
+       aes(x=emprego, y=Freq, fill=expectativa)) + 
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1)+ 
+  #  geom_text(aes(label = freq_r),
+  #            hjust=0.5, 
+  #            color=1, 
+  #            size=8, 
+  #            position=position_stack(), 
+  #            vjust=1)+
+  xlab("Emprego") +
+  ylab("Proporção") +
+  ggtitle("Situação de emprego x Expectativa após PG")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          #axis.text = element_blank(),
+                          #legend.title = element_blank(),
+                          text = element_text(size=15)) 
+```
+
+---
+
+### Entre uma quantitativa e uma qualitativa {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Área do conhecimento x Número de quadrados na figura
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+ggplot(data = quest_24, 
+       mapping = aes(x = area_conhec,
+                     y=quadrados)) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1,
+               fill = '#E0F8F7')+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("Área do conhecimento") +
+  ylab("Quadrados") +
+  ggtitle("Área do conhecimento x Número de quadrados na figura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+
+```
+
+---
+
+#### Sexo x Idade da pessoa na foto
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+ggplot(data = subset(quest_24, idade_foto>18 & idade_foto<50), 
+       mapping = aes(x = sexo,
+                     y=idade_foto)) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1,
+               fill = '#E0F8F7')+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("Sexo") +
+  ylab("Idade") +
+  ggtitle("Sexo x Idade da pessoa na foto")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+
+```
+
+---
+
+#### Bolsa de estudos x Número de artigos
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+ggplot(data = quest_24, 
+       mapping = aes(x = bolsa,
+                     y=artigos)) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1,
+               fill = '#E0F8F7')+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("Bolsa") +
+  ylab("Artigos") +
+  ggtitle("Bolsa de estudos x Número de artigos")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+### Entre duas quantitativas {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Peso x Altura
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+ggplot(data = subset(quest_24, peso >=15 & 
+                       peso <=200 & 
+                       altura >=90 & 
+                       altura <=250), 
+       mapping = aes(x = altura,
+                     y = peso)) +
+  geom_point()+
+  geom_smooth(method = 'lm', se=F, col=2)+
+  geom_smooth(se=F)+
+  xlab("Altura") +
+  ylab("Peso") +
+  ggtitle("Peso x Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+
+```
+
+---
+
+#### Idade x Atividade física semanal
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.width=10}
+ggplot(data = subset(quest_24, idade >=15 & 
+                       idade <=100 & 
+                       atv_fisica_n >=0 & 
+                       atv_fisica_n <=7), 
+       mapping = aes(x = idade,
+                     y = atv_fisica_n)) +
+  geom_point()+
+  geom_smooth(method = 'lm', se=F, col=2)+
+  geom_smooth(se=F)+
+  xlab("Idade") +
+  ylab("Atividade física") +
+  ggtitle("Idade x Atividade física semanal")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+
+
+```
+
+---
+
+###
+
+
+<center>
+
+<table><tr>
+
+<td> <img src="img/dest-texto-2.png" alt="Drawing" style="width: 250px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/transversais.png" alt="Drawing" style="width: 300px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/ufpr-transparent-600px.png" alt="Drawing" style="width: 200px;"/> </td>
+
+</center>
+
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

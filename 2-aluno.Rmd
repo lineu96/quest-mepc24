@@ -1,0 +1,3929 @@
+---
+title: "Questões pessoais"
+output:
+  html_document:                    
+    #toc: true                       
+    #toc_depth: 3                    
+    #toc_float:                      
+    #  collapsed: true
+    #  smooth_scroll: true
+    #number_sections: true           
+    theme: flatly
+    #spacelab
+    #default,cerulean,journal,flatly,readable,spacelab,
+    #united,cosmo,lumen,paper,sandstone,simplex,yeti
+    
+    highlight: espresso
+    #default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, and textmate
+    #css: styles.css                
+    fig_width: 7                    
+    fig_height: 6                   
+    fig_caption: true               
+    fig_align: 'center'
+    #code_folding: hide              
+#    keep_md: true                   
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
+# source("./R/pacotes.R")
+# source("./R/funcoes-auxiliares.R")
+# source("./R/importacao-respostas.R")
+```
+
+As questões a seguir dizem respeito às características dos indivíduos matriculados: sexo, altura, peso, data de nascimento, etc.
+
+---
+
+### Qual o seu sexo? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE}
+## 2024
+
+quest_24$sexo <- factor(quest_24$sexo,
+                               levels = c("Masculino", 
+                                          "Feminino", 
+                                          "Prefiro não responder"))
+
+#-----------------------------------------------------------------------
+
+## 2023
+
+quest_23$sexo <- factor(quest_23$sexo,
+                               levels = c("Masculino", 
+                                          "Feminino", 
+                                          "Prefiro não responder"))
+
+#-----------------------------------------------------------------------
+
+## 2022
+
+quest_22$sexo <- factor(quest_22$sexo,
+                               levels = c("Masculino", 
+                                          "Feminino", 
+                                          "Prefiro não responder"))
+
+#-----------------------------------------------------------------------
+
+## 2021
+
+quest_21$sexo <- factor(quest_21$sexo,
+                               levels = c("Masculino", 
+                                          "Feminino", 
+                                          "Prefiro não responder"))
+
+#-----------------------------------------------------------------------
+
+##2020
+
+quest_20$ln_sexo <- factor(quest_20$ln_sexo,
+                               levels = c("Masculino", 
+                                          "Feminino"))
+
+#-----------------------------------------------------------------------
+
+##2019
+
+quest_19$ln_sexo <- factor(quest_19$ln_sexo,
+                               levels = c("Masculino", 
+                                          "Feminino"))
+
+#-----------------------------------------------------------------------
+
+# tabela
+
+table1 <- freq_ord(quest_24$sexo)
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+pander::pander(table1)
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+table1 <- freq_n_ord(quest_24$sexo)
+
+ggplot(data=table1, aes(x=reorder(Niveis, -Frequencia), 
+                       y=Frequencia#, 
+                       #fill = Niveis
+                       )) + 
+  geom_bar(stat="identity", 
+           col=1,
+           lwd=1)+
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.2))))+
+  geom_text(aes(label=Frequencia), 
+            vjust=-1, 
+            color=1, 
+            size=8)+
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Sexo")+
+  theme_classic() + theme(legend.position = 'bottom',
+    plot.title = element_text(family = "Helvetica", 
+                              face = "bold", 
+                              size = (20),
+                              hjust = 0.5),
+    axis.title = element_text(face = "bold",
+                              size = 15),
+    #axis.text = element_blank(),
+    legend.title = element_blank(),
+    text = element_text(size=20)) 
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+compara <- rbind(freq_n_ord(quest_24$sexo),
+                 freq_n_ord(quest_23$sexo),
+                 freq_n_ord(quest_22$sexo),
+                 freq_n_ord(quest_21$sexo),
+                 freq_n_ord(quest_20$ln_sexo),
+                 freq_n_ord(quest_19$ln_sexo))
+
+compara$Ano <- c(rep('2024',3),rep('2023',3),
+                 rep('2022',3),rep('2021',3), 
+                 rep('2020',2), rep('2019',2))
+
+compara$Frequencia.relativa <- round(compara$Frequencia.relativa,2)
+
+ggplot(data = compara,
+       mapping = aes(x = Ano,
+                     y = Frequencia.relativa,
+                     group = Niveis,
+                     col = Niveis)) + 
+  geom_line() + geom_point()+
+  ylab("Proporção") +
+  xlab("") +
+  ggtitle("Sexo")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=20))+
+  theme(legend.title=element_blank())
+
+```
+
+---
+
+### Qual a sua altura? {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+altura <- subset(quest_24, altura >= 100 & altura <= 250)
+
+pander(tab_classes(altura$altura))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(altura$altura))
+pander(dispersao(altura$altura))
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+table <- as.data.frame(table(altura$altura))
+table$Var1 <- as.numeric(as.vector(table$Var1))
+
+# Plot
+ggplot(table, aes(x=Var1, y=Freq)) +
+  geom_point() + 
+  geom_segment(aes(x=Var1, 
+                   xend=Var1, 
+                   y=0, 
+                   yend=Freq),
+               lwd = 1.5)+
+  xlab("Altura") +
+  ylab("Frequência") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(altura, aes(x=altura)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(altura$altura, plot = FALSE)$breaks) + 
+  xlab("Altura") +
+  ylab("Frequência") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = altura, 
+       mapping = aes(y=altura, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("") +
+  ylab("") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) #+coord_flip()
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = altura, 
+       mapping = aes(y=altura, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("") +
+  xlab("") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) +
+  geom_jitter(col=4, alpha = 0.5) #+coord_flip()
+```
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(altura, aes(x=altura)) +
+  geom_density(col=1,
+               lwd=1) + 
+  xlab("Altura") +
+  ylab("Densidade") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 6
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(altura) + 
+  geom_histogram(aes(x=altura,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(altura$altura, plot = FALSE)$breaks) + 
+  geom_density(aes(x=altura,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  xlab("Altura") +
+  ylab("Densidade") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 7
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(altura, aes(x=altura)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(altura$altura, plot = FALSE)$breaks) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = altura, 
+            mapping = aes(y=altura, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Altura") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Gráfico 8
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(altura) + 
+  geom_histogram(aes(x=altura,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(altura$altura, plot = FALSE)$breaks) + 
+  geom_density(aes(x=altura,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  ylab("Densidade") +
+  xlab("") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = altura, 
+            mapping = aes(y=altura, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Altura") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+
+altura_24 <- subset(quest_24, altura >= 100 & altura <= 250)
+altura_23 <- subset(quest_23, altura >= 100 & altura <= 250)
+altura_22 <- subset(quest_22, altura >= 100 & altura <= 250)
+altura_21 <- subset(quest_21, altura >= 100 & altura <= 250)
+altura_20 <- subset(quest_20, tc_altura >= 100 & tc_altura <= 250)
+altura_19 <- subset(quest_19, tc_altura >= 100 & tc_altura <= 250)
+
+altura <- data.frame(altura = c(altura_19$tc_altura,
+                                altura_20$tc_altura,
+                                altura_21$altura,
+                                altura_22$altura,
+                                altura_23$altura,
+                                altura_24$altura
+                                ),
+                     ano = c(rep(2019,nrow(altura_19)),
+                             rep(2020,nrow(altura_20)),
+                             rep(2021,nrow(altura_21)),
+                             rep(2022,nrow(altura_22)),
+                             rep(2023,nrow(altura_23)),
+                             rep(2024,nrow(altura_24))
+                             ))
+
+ggplot(data = altura, 
+       mapping = aes(x = factor(ano),
+                     y = altura)) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1,
+               fill = 'white')+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("Ano de resposta") +
+  ylab("Altura") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) +
+  coord_flip()
+
+```
+
+---
+
+
+### Qual o seu peso? {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+peso <- subset(quest_24, peso >= 15 & peso <= 500)
+
+pander(tab_classes(peso$peso))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(peso$peso))
+pander(dispersao(peso$peso))
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+table <- as.data.frame(table(peso$peso))
+table$Var1 <- as.numeric(as.vector(table$Var1))
+
+# Plot
+ggplot(table, aes(x=Var1, y=Freq)) +
+  geom_point() + 
+  geom_segment(aes(x=Var1, 
+                   xend=Var1, 
+                   y=0, 
+                   yend=Freq),
+               lwd = 1.5)+
+  xlab("Peso") +
+  ylab("Frequência") +
+  ggtitle("Altura")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(peso, aes(x=peso)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(peso$peso, plot = FALSE)$breaks) + 
+  xlab("Peso") +
+  ylab("Frequência") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = peso, 
+       mapping = aes(y=peso, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("") +
+  ylab("") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) #+coord_flip()
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = peso, 
+       mapping = aes(y=peso, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("") +
+  xlab("") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) +
+  geom_jitter(col=4, alpha = 0.5) #+coord_flip()
+```
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(peso, aes(x=peso)) +
+  geom_density(col=1,
+               lwd=1) + 
+  xlab("Peso") +
+  ylab("Densidade") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 6
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(peso) + 
+  geom_histogram(aes(x=peso,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(peso$peso, plot = FALSE)$breaks) + 
+  geom_density(aes(x=peso,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  xlab("Peso") +
+  ylab("Densidade") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 7
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(peso, aes(x=peso)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(peso$peso, plot = FALSE)$breaks) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = peso, 
+            mapping = aes(y=peso, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Peso") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Gráfico 8
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(peso) + 
+  geom_histogram(aes(x=peso,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(peso$peso, plot = FALSE)$breaks) + 
+  geom_density(aes(x=peso,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  ylab("Densidade") +
+  xlab("") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = peso, 
+            mapping = aes(y=peso, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Peso") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+
+peso_24 <- subset(quest_24, peso >= 10 & peso <= 500)
+peso_23 <- subset(quest_23, peso >= 10 & peso <= 500)
+peso_22 <- subset(quest_22, peso >= 10 & peso <= 500)
+peso_21 <- subset(quest_21, peso >= 10 & peso <= 500)
+peso_20 <- subset(quest_20, tc_peso >= 10 & tc_peso <= 500)
+peso_19 <- subset(quest_19, tc_peso >= 10 & tc_peso <= 500)
+
+peso <- data.frame(peso = c(peso_19$tc_peso,
+                            peso_20$tc_peso,
+                            peso_21$peso,
+                            peso_22$peso,
+                            peso_23$peso,
+                            peso_24$peso
+                            ),
+                   ano = c(rep(2019,nrow(peso_19)),
+                           rep(2020,nrow(peso_20)),
+                           rep(2021,nrow(peso_21)),
+                           rep(2022,nrow(peso_22)),
+                           rep(2023,nrow(peso_23)),
+                           rep(2024,nrow(peso_24))
+                           ))
+
+ggplot(data = peso, 
+       mapping = aes(x = factor(ano),
+                     y = peso)) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1,
+               fill = 'white')+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("Ano de resposta") +
+  ylab("Peso") +
+  ggtitle("Peso")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) +
+  coord_flip()
+
+```
+
+---
+
+### Índice de Massa Corpórea {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+imc <- subset(quest_24, 
+              peso >= 15 & peso <= 200 & 
+                altura >= 90 & altura <= 250)
+
+imc$imc <- imc$peso/((imc$altura/100)^2)
+
+pander(tab_classes(imc$imc))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(imc$imc))
+pander(dispersao(imc$imc))
+```
+</center>
+
+---
+
+#### Tabela 3
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+imc$imc_cat <- rep(NA, nrow(imc))
+
+imc$imc_cat <- ifelse(imc$imc < 18.5, 'Abaixo do peso', imc$imc_cat)
+imc$imc_cat <- ifelse(imc$imc > 18.5 &  imc$imc < 25, 'Saudável', imc$imc_cat)
+imc$imc_cat <- ifelse(imc$imc > 25 &  imc$imc < 30, 'Sobrepeso', imc$imc_cat)
+imc$imc_cat <- ifelse(imc$imc > 30 &  imc$imc < 40, 'Obesidade', imc$imc_cat)
+imc$imc_cat <- ifelse(imc$imc > 40, 'Obesidade mórbida', imc$imc_cat)
+
+imc$imc_cat <- ordered(imc$imc_cat,
+                       levels =c("Abaixo do peso", 
+                                 "Saudável", 
+                                 "Sobrepeso", 
+                                 "Obesidade", 
+                                 "Obesidade mórbida"))
+
+pander(freq_n_ord(imc$imc_cat))
+
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(imc, aes(x=imc)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(imc$imc, plot = FALSE)$breaks) + 
+  xlab("IMC") +
+  ylab("Frequência") +
+  ggtitle("IMC")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(imc, aes(x=imc)) +
+  geom_density(col=1,
+               lwd=1) + 
+  xlab("IMC") +
+  ylab("Densidade") +
+  ggtitle("IMC")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(imc) + 
+  geom_histogram(aes(x=imc,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(imc$imc, plot = FALSE)$breaks) + 
+  geom_density(aes(x=imc,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  xlab("IMC") +
+  ylab("Densidade") +
+  ggtitle("IMC")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(imc, aes(x=imc)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(imc$imc, plot = FALSE)$breaks) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("IMC")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = imc, 
+            mapping = aes(y=imc, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("IMC") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(imc) + 
+  geom_histogram(aes(x=imc,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(imc$imc, plot = FALSE)$breaks) + 
+  geom_density(aes(x=imc,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  ylab("Densidade") +
+  xlab("") +
+  ggtitle("IMC")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = imc, 
+            mapping = aes(y=imc, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("IMC") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Gráfico 6
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, fig.width=10}
+
+table1 <- freq_n_ord(imc$imc_cat)
+
+table1$Niveis <- ordered(table1$Niveis,
+                       levels =c("Abaixo do peso", 
+                                 "Saudável", 
+                                 "Sobrepeso", 
+                                 "Obesidade", 
+                                 "Obesidade mórbida"))
+
+ggplot(data=table1, aes(x=Niveis, 
+                       y=Frequencia#, 
+                       #fill = Niveis
+                       )) + 
+  geom_bar(stat="identity", 
+           col=1,
+           lwd=1)+
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.2))))+
+  geom_text(aes(label=Frequencia), 
+            vjust=-1, 
+            color=1, 
+            size=8)+
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("IMC")+
+  theme_classic() + theme(legend.position = 'none',
+    plot.title = element_text(family = "Helvetica", 
+                              face = "bold", 
+                              size = (20),
+                              hjust = 0.5),
+    axis.title = element_text(face = "bold",
+                              size = 15),
+    #axis.text = element_blank(),
+    legend.title = element_blank(),
+    text = element_text(size=15)) 
+```
+
+---
+
+### Qual a data do seu nascimento? {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+Idade em anos.
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+quest_24$nascimento <- as.Date(quest_24$nascimento, "%d/%m/%Y")
+
+quest_24$idade <- floor(difftime(Sys.Date(), quest_24$nascimento, units = "weeks")/52)
+
+quest_24$idade <- as.integer(quest_24$idade)
+
+idade <- subset(quest_24, idade >= 15 & idade <= 100)
+
+pander(tab_classes(idade$idade))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+Medidas descritivas da idade em anos.
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(idade$idade))
+pander(dispersao(idade$idade))
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+table <- as.data.frame(table(idade$idade))
+table$Var1 <- as.numeric(as.vector(table$Var1))
+
+# Plot
+ggplot(table, aes(x=Var1, y=Freq)) +
+  geom_point() + 
+  geom_segment(aes(x=Var1, 
+                   xend=Var1, 
+                   y=0, 
+                   yend=Freq),
+               lwd = 1.5)+
+  xlab("Idade") +
+  ylab("Frequência") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(idade, aes(x=idade)) +
+  geom_bar(col=1,
+                 lwd=1) + 
+  xlab("Idade") +
+  ylab("Frequência") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = idade, 
+       mapping = aes(y=idade, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("") +
+  ylab("") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) #+coord_flip()
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = idade, 
+       mapping = aes(y=idade, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("") +
+  xlab("") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) +
+  geom_jitter(col=4, alpha = 0.5) #+coord_flip()
+```
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(idade, aes(x=idade)) +
+  geom_density(col=1,
+               lwd=1) + 
+  xlab("Idade") +
+  ylab("Densidade") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 6
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(idade) + 
+  geom_histogram(aes(x=idade,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(idade$idade, plot = FALSE)$breaks) + 
+  geom_density(aes(x=idade,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  xlab("Idade") +
+  ylab("Densidade") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 7
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(idade, aes(x=idade)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(idade$idade, plot = FALSE)$breaks) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = idade, 
+            mapping = aes(y=idade, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Idade") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Gráfico 8
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(idade) + 
+  geom_histogram(aes(x=idade,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(idade$idade, plot = FALSE)$breaks) + 
+  geom_density(aes(x=idade,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  ylab("Densidade") +
+  xlab("") +
+  ggtitle("Idade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = idade, 
+            mapping = aes(y=idade, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Idade") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Tabela 3
+
+Meses de nascimento.
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+mes <- month(as.POSIXlt(quest_24$nascimento, format="%d-%m-%Y"))
+
+pander(freq_n_ord(mes))
+
+```
+</center>
+
+---
+
+#### Gráfico 9
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+
+table1 <- freq_n_ord(mes)
+
+table1$Niveis <- as.integer(table1$Niveis)
+
+ggplot(data=table1, aes(x=Niveis, 
+                       y=Frequencia#, 
+                       #fill = Niveis
+                       )) + 
+  geom_bar(stat="identity", 
+           col=1,
+           lwd=1)+
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.2))))+
+  geom_text(aes(label=Frequencia), 
+            vjust=-1, 
+            color=1, 
+            size=8)+
+  ylab("Frequência") +
+  xlab("") + scale_x_discrete(limits = 1:12) +
+  ggtitle("Mês de nascimento")+
+  theme_classic() + theme(legend.position = 'bottom',
+    plot.title = element_text(family = "Helvetica", 
+                              face = "bold", 
+                              size = (20),
+                              hjust = 0.5),
+    axis.title = element_text(face = "bold",
+                              size = 15),
+    #axis.text = element_blank(),
+    legend.title = element_blank(),
+    text = element_text(size=20)) 
+
+```
+
+---
+
+### Qual das seguintes categorias descreve melhor sua situação de emprego? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE}
+
+### 2024
+quest_24$emprego <- tolower(iconv(quest_24$emprego,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+classOpcoes <- c("trabalho com carteira assinada/vinculo formal",
+                 "trabalho ocasional", "trabalho por contrato",
+                 "bolsista em tempo integral")
+
+quest_24$emprego[ !quest_24$emprego %in% classOpcoes ] <- "outro"
+
+quest_24$emprego <- factor(quest_24$emprego,
+                            levels = c("trabalho com carteira assinada/vinculo formal",
+                                       "trabalho ocasional", "trabalho por contrato",
+                                       "bolsista em tempo integral", "outro"))
+
+#----------------------------------------------------------------------
+
+### 2023
+quest_23$emprego <- tolower(iconv(quest_23$emprego,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+classOpcoes <- c("trabalho com carteira assinada/vinculo formal",
+                 "trabalho ocasional", "trabalho por contrato",
+                 "bolsista em tempo integral")
+
+quest_23$emprego[ !quest_23$emprego %in% classOpcoes ] <- "outro"
+
+quest_23$emprego <- factor(quest_23$emprego,
+                            levels = c("trabalho com carteira assinada/vinculo formal",
+                                       "trabalho ocasional", "trabalho por contrato",
+                                       "bolsista em tempo integral", "outro"))
+
+#----------------------------------------------------------------------
+
+### 2022
+quest_22$emprego <- tolower(iconv(quest_22$emprego,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+classOpcoes <- c("trabalho com carteira assinada/vinculo formal",
+                 "trabalho ocasional", "trabalho por contrato",
+                 "bolsista em tempo integral")
+
+quest_22$emprego[ !quest_22$emprego %in% classOpcoes ] <- "outro"
+
+quest_22$emprego <- factor(quest_22$emprego,
+                            levels = c("trabalho com carteira assinada/vinculo formal",
+                                       "trabalho ocasional", "trabalho por contrato",
+                                       "bolsista em tempo integral", "outro"))
+
+#----------------------------------------------------------------------
+
+### 2021
+quest_21$emprego <- tolower(iconv(quest_21$emprego,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+classOpcoes <- c("trabalho com carteira assinada/vinculo formal",
+                 "trabalho ocasional", "trabalho por contrato",
+                 "bolsista em tempo integral")
+
+quest_21$emprego[ !quest_21$emprego %in% classOpcoes ] <- "outro"
+
+quest_21$emprego <- factor(quest_21$emprego,
+                            levels = c("trabalho com carteira assinada/vinculo formal",
+                                       "trabalho ocasional", "trabalho por contrato",
+                                       "bolsista em tempo integral", "outro"))
+
+#----------------------------------------------------------------------
+
+### 2020
+quest_20$ln_tipoTrab <- tolower(iconv(quest_20$ln_tipoTrab,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_20$ln_tipoTrab[ !quest_20$ln_tipoTrab %in% classOpcoes ] <- "outro"
+
+quest_20$ln_tipoTrab <- factor(quest_20$ln_tipoTrab,
+                            levels = c("trabalho com carteira assinada/vinculo formal",
+                                       "trabalho ocasional", "trabalho por contrato",
+                                       "bolsista em tempo integral", "outro"))
+
+#----------------------------------------------------------------------
+
+### 2020
+quest_19$ln_tipoTrab <- tolower(iconv(quest_19$ln_tipoTrab,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_19$ln_tipoTrab[ !quest_19$ln_tipoTrab %in% classOpcoes ] <- "outro"
+
+quest_19$ln_tipoTrab <- factor(quest_19$ln_tipoTrab,
+                            levels = c("trabalho com carteira assinada/vinculo formal",
+                                       "trabalho ocasional", "trabalho por contrato",
+                                       "bolsista em tempo integral", "outro"))
+
+#----------------------------------------------------------------------
+
+## Tabelas de frequencia
+table1 <- freq_ord(quest_24$emprego)
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander::pander(table1)
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+table1 <- freq_n_ord(quest_24$emprego)
+
+table1$Niveis <- c("Vínc.Formal", "Trab.Ocasional", 
+                 "Trab.Contrato", "Bolsista", 
+                 "Outro")
+
+ggplot(data = table1, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Emprego")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, fig.width=10}
+
+compara <- rbind(freq_n_ord(quest_24$emprego),
+                 freq_n_ord(quest_23$emprego),
+                 freq_n_ord(quest_22$emprego),
+                 freq_n_ord(quest_21$emprego),
+                 freq_n_ord(quest_20$ln_tipoTrab),
+                 freq_n_ord(quest_19$ln_tipoTrab))
+
+compara$Niveis <- c("Vínc.Formal", "Trab.Ocasional", 
+                 "Trab.Contrato", "Bolsista", 
+                 "Outro")
+
+compara$Ano <- c(rep('2024',5),rep('2023',5),
+                 rep('2022',5), rep('2021',5), 
+                 rep('2020',5), rep('2019',5))
+
+compara$Frequencia.relativa <- round(compara$Frequencia.relativa,2)
+
+ggplot(data = compara,
+       mapping = aes(x = Ano,
+                     y = Frequencia.relativa,
+                     group = Niveis,
+                     col = Niveis)) + 
+  geom_line() + geom_point()+
+  ylab("Proporção") +
+  xlab("") +
+  ggtitle("Emprego")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=20)) +
+  theme(legend.title=element_blank())
+
+```
+
+---
+
+### Com quem você mora? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE}
+
+### 2024
+quest_24$residencia <- tolower(iconv(quest_24$residencia,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_24$residencia <- factor(quest_24$residencia,
+                               levels = c("com os pais", 
+                                          "com outros familiares", 
+                                          "com amigos",
+                                          "com o namorado(a)/noivo(a)/conjuge/nucleo familiar proprio",
+                                          "pensao, quarto alugado ou algo similar", "sozinho"))
+
+#----------------------------------------------------------------------
+
+### 2023
+quest_23$residencia <- tolower(iconv(quest_23$residencia,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_23$residencia <- factor(quest_23$residencia,
+                               levels = c("com os pais", 
+                                          "com outros familiares", 
+                                          "com amigos",
+                                          "com o namorado(a)/noivo(a)/conjuge/nucleo familiar proprio",
+                                          "pensao, quarto alugado ou algo similar", "sozinho"))
+
+#----------------------------------------------------------------------
+
+### 2022
+quest_22$residencia <- tolower(iconv(quest_22$residencia,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_22$residencia <- factor(quest_22$residencia,
+                               levels = c("com os pais", 
+                                          "com outros familiares", 
+                                          "com amigos",
+                                          "com o namorado(a)/noivo(a)/conjuge/nucleo familiar proprio",
+                                          "pensao, quarto alugado ou algo similar", "sozinho"))
+
+#----------------------------------------------------------------------
+
+### 2021
+quest_21$residencia <- tolower(iconv(quest_21$residencia,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_21$residencia <- factor(quest_21$residencia,
+                               levels = c("com os pais", 
+                                          "com outros familiares", 
+                                          "com amigos",
+                                          "com o namorado(a)/noivo(a)/conjuge/nucleo familiar proprio",
+                                          "pensao, quarto alugado ou algo similar", "sozinho"))
+
+#----------------------------------------------------------------------
+
+### 2020
+quest_20$ln_compMoradia <- tolower(iconv(quest_20$ln_compMoradia,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_20$ln_compMoradia <- factor(quest_20$ln_compMoradia,
+                               levels = c("com os pais", "com outros familiares", "com amigos",
+                                          "com o namorado(a)/noivo(a)/conjuge",
+                                          "pensao, quarto alugado ou algo similar", "sozinho"))
+
+#----------------------------------------------------------------------
+
+### 2019
+quest_19$ln_compMoradia <- tolower(iconv(quest_19$ln_compMoradia,
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_19$ln_compMoradia <- factor(quest_19$ln_compMoradia,
+                               levels = c("com os pais", "com outros familiares", "com amigos",
+                                          "com o namorado(a)/noivo(a)/conjuge",
+                                          "pensao, quarto alugado ou algo similar", "sozinho"))
+
+#----------------------------------------------------------------------
+
+## Tabelas de frequencia
+table1 <- freq_ord(quest_24$residencia)
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander::pander(table1)
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+table1 <- freq_n_ord(quest_24$residencia)
+
+table1$Niveis <- c("Pais", "Familia", 
+                "Amigos", "Cônjuge", 
+                "Pensão", "Sozinho")
+
+ggplot(data = table1, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Com quem mora")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+compara <- rbind(freq_n_ord(quest_24$residencia),
+                 freq_n_ord(quest_23$residencia),
+                 freq_n_ord(quest_22$residencia),
+                 freq_n_ord(quest_21$residencia),
+                 freq_n_ord(quest_20$ln_compMoradia),
+                 freq_n_ord(quest_19$ln_compMoradia))
+
+compara$Niveis <- c("Pais", "Familia", 
+                "Amigos", "Cônjuge", 
+                "Pensão", "Sozinho")
+
+compara$Ano <- c(rep('2024',6),rep('2023',6),
+                 rep('2022',6), rep('2021',6), 
+                 rep('2020',6), rep('2019',6))
+
+compara$Frequencia.relativa <- round(compara$Frequencia.relativa,2)
+
+ggplot(data = compara,
+       mapping = aes(x = Ano,
+                     y = Frequencia.relativa,
+                     group = Niveis,
+                     col = Niveis)) + 
+  geom_line() + geom_point()+
+  ylab("Proporção") +
+  xlab("") +
+  ggtitle("Emprego")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=20))+
+  theme(legend.title=element_blank())
+```
+
+---
+
+### Quantos irmãos você tem? {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+irmaos <- subset(quest_24, irmaos >= 0)
+
+pander(tab_classes(irmaos$irmaos))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(irmaos$irmaos))
+pander(dispersao(irmaos$irmaos))
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+table <- as.data.frame(table(irmaos$irmaos))
+table$Var1 <- as.numeric(as.vector(table$Var1))
+
+# Plot
+ggplot(table, aes(x=Var1, y=Freq)) +
+  geom_point() + 
+  geom_segment(aes(x=Var1, 
+                   xend=Var1, 
+                   y=0, 
+                   yend=Freq),
+               lwd = 1.5)+
+  xlab("Número de irmãos") +
+  ylab("Frequência") +
+  ggtitle("Número de irmãos")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(irmaos, aes(x=irmaos)) +
+  geom_bar(col=1,
+                 lwd=1) + 
+  xlab("Número de irmãos") +
+  ylab("Frequência") +
+  ggtitle("Número de irmãos")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = irmaos, 
+       mapping = aes(y=irmaos, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("") +
+  ylab("") +
+  ggtitle("Número de irmãos")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) #+coord_flip()
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = irmaos, 
+       mapping = aes(y=irmaos, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("") +
+  xlab("") +
+  ggtitle("Número de irmãos")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) +
+  geom_jitter(col=4, alpha = 0.5) #+coord_flip()
+```
+
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(irmaos, aes(x=irmaos)) +
+  geom_bar(col=1,
+                 lwd=1) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Número de irmãos")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = irmaos, 
+            mapping = aes(y=irmaos, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Número de irmãos") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE, fig.height=6}
+
+irmaos_24 <- subset(quest_24,irmaos>=0 & irmaos<=20)
+irmaos_23 <- subset(quest_23,irmaos>=0 & irmaos<=20)
+irmaos_22 <- subset(quest_22,irmaos>=0 & irmaos<=20)
+irmaos_21 <- subset(quest_21,irmaos>=0 & irmaos<=20)
+irmaos_20 <- subset(quest_20,td_numIrmao>=0 & td_numIrmao<=20)
+irmaos_19 <- subset(quest_19,td_numIrmao>=0 & td_numIrmao<=20)
+
+compara <- rbind(freq_n_ord(irmaos_19$td_numIrmao),
+                 freq_n_ord(irmaos_20$td_numIrmao),
+                 freq_n_ord(irmaos_21$irmaos),
+                 freq_n_ord(irmaos_22$irmaos),
+                 freq_n_ord(irmaos_23$irmaos),
+                 freq_n_ord(irmaos_24$irmaos))
+
+compara$Ano <- c(rep('2019', nrow(freq_n_ord(irmaos_19$td_numIrmao))),
+                 rep('2020', nrow(freq_n_ord(irmaos_20$td_numIrmao))),
+                 rep('2021', nrow(freq_n_ord(irmaos_21$irmaos))),
+                 rep('2022', nrow(freq_n_ord(irmaos_22$irmaos))),
+                 rep('2023', nrow(freq_n_ord(irmaos_23$irmaos))),
+                 rep('2024', nrow(freq_n_ord(irmaos_24$irmaos)))
+                 )
+
+compara$Niveis <- as.factor(compara$Niveis)
+
+compara$Frequencia.relativa <- round(compara$Frequencia.relativa,2)
+
+compara$Niveis <- as.numeric(as.vector(compara$Niveis))
+
+ggplot(data = compara,
+       mapping = aes(x = Ano,
+                     y = Frequencia.relativa,
+                     group = factor(Niveis),
+                     col = factor(Niveis))) + 
+  geom_line() + geom_point()+
+  ylab("Proporção") +
+  xlab("") +
+  ggtitle("Irmãos")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=20))+
+  theme(legend.title=element_blank())
+
+```
+
+---
+
+### Qual a sua origem? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE}
+### 2024
+quest_24$origem<- tolower(iconv(quest_24$origem, 
+                                 to ='ASCII//TRANSLIT', 
+                                 from = "UTF-8"))
+
+quest_24$origem <- factor(quest_24$origem,
+                          levels = c("curitiba", "regiao metropolitana",
+                                     "interior do parana",
+                                     "outro estado", "outro pais"))
+
+#----------------------------------------------------------------------
+
+### 2023
+quest_23$origem<- tolower(iconv(quest_23$origem, 
+                                 to ='ASCII//TRANSLIT', 
+                                 from = "UTF-8"))
+
+quest_23$origem <- factor(quest_23$origem,
+                          levels = c("curitiba", "regiao metropolitana",
+                                     "interior do parana",
+                                     "outro estado", "outro pais"))
+
+#----------------------------------------------------------------------
+
+### 2022
+quest_22$origem<- tolower(iconv(quest_22$origem, 
+                                 to ='ASCII//TRANSLIT', 
+                                 from = "UTF-8"))
+
+quest_22$origem <- factor(quest_22$origem,
+                          levels = c("curitiba", "regiao metropolitana",
+                                     "interior do parana",
+                                     "outro estado", "outro pais"))
+
+#----------------------------------------------------------------------
+
+### 2021
+quest_21$origem<- tolower(iconv(quest_21$origem, 
+                                 to ='ASCII//TRANSLIT', 
+                                 from = "UTF-8"))
+
+quest_21$origem <- factor(quest_21$origem,
+                          levels = c("curitiba", "regiao metropolitana",
+                                     "interior do parana",
+                                     "outro estado", "outro pais"))
+
+#----------------------------------------------------------------------
+
+### 2020
+quest_20$ln_origem<- tolower(iconv(quest_20$ln_origem, 
+                                 to ='ASCII//TRANSLIT', 
+                                 from = "UTF-8"))
+
+quest_20$ln_origem <- factor(quest_20$ln_origem,
+                          levels = c("curitiba", "regiao metropolitana",
+                                     "interior do parana",
+                                     "outro estado", "outro pais"))
+
+#----------------------------------------------------------------------
+
+### 2019
+quest_19$ln_origem<- tolower(iconv(quest_19$ln_origem, 
+                                 to ='ASCII//TRANSLIT', 
+                                 from = "UTF-8"))
+
+quest_19$ln_origem <- factor(quest_19$ln_origem,
+                          levels = c("curitiba", "regiao metropolitana",
+                                     "interior do parana",
+                                     "outro estado", "outro pais"))
+
+#----------------------------------------------------------------------
+
+## Tabelas de frequencia
+table1 <- freq_ord(quest_24$origem)
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander::pander(table1)
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+table1 <- freq_n_ord(quest_24$origem)
+
+table1$Niveis <- c("Curitiba",
+                   "Região metropolitana",
+                   "Interior PR", "Outro Estado", 
+                   "Outro País")
+
+ggplot(data = table1, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Origem")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, fig.width=10}
+
+compara <- rbind(freq_n_ord(quest_24$origem),
+                 freq_n_ord(quest_23$origem),
+                 freq_n_ord(quest_22$origem),
+                 freq_n_ord(quest_21$origem),
+                 freq_n_ord(quest_20$ln_origem),
+                 freq_n_ord(quest_19$ln_origem))
+
+compara$Niveis <- c("Curitiba",
+                   "Região metropolitana",
+                   "Interior PR", "Outro Estado", 
+                   "Outro País")
+
+compara$Ano <- c(rep('2024',5),rep('2023',5),
+                 rep('2022',5), rep('2021',5), 
+                 rep('2020',5), rep('2019',5))
+
+compara$Frequencia.relativa <- round(compara$Frequencia.relativa,2)
+
+ggplot(data = compara,
+       mapping = aes(x = Ano,
+                     y = Frequencia.relativa,
+                     group = Niveis,
+                     col = Niveis)) + 
+  geom_line() + geom_point()+
+  ylab("Proporção") +
+  xlab("") +
+  ggtitle("Origem")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=20)) +
+  theme(legend.title=element_blank())
+
+```
+
+---
+
+### Qual seu meio de transporte predominante que utilizava ou utilizaria para Universidade em atividades presenciais? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE}
+
+### 2024
+
+quest_24$transporte <- tolower(iconv(quest_24$transporte, 
+                                     to ='ASCII//TRANSLIT', 
+                                     from = "UTF-8"))
+
+classOpcoes <- c("carro/moto proprio", 
+                 "transporte publico", "a pe", "bicicleta", 
+                 "carona com amigos", "taxi/aplicativo", 
+                 "servico fretado de van/onibus")
+
+quest_24$transporte[ !quest_24$transporte %in% classOpcoes ] <- "outro"
+
+quest_24$transporte <- factor(quest_24$transporte,
+                              levels = c("carro/moto proprio",
+                                         "transporte publico", "a pe",
+                                         "bicicleta", 
+                                         "carona com amigos", "taxi/aplicativo",
+                                         "servico fretado de van/onibus", 
+                                         "outro"))
+
+#----------------------------------------------------------------------
+
+### 2023
+
+quest_23$transporte <- tolower(iconv(quest_23$transporte, 
+                                     to ='ASCII//TRANSLIT', 
+                                     from = "UTF-8"))
+
+classOpcoes <- c("carro/moto proprio", 
+                 "transporte publico", "a pe", "bicicleta", 
+                 "carona com amigos", "taxi/aplicativo", 
+                 "servico fretado de van/onibus")
+
+quest_23$transporte[ !quest_23$transporte %in% classOpcoes ] <- "outro"
+
+quest_23$transporte <- factor(quest_23$transporte,
+                              levels = c("carro/moto proprio",
+                                         "transporte publico", "a pe",
+                                         "bicicleta", 
+                                         "carona com amigos", "taxi/aplicativo",
+                                         "servico fretado de van/onibus", 
+                                         "outro"))
+
+#----------------------------------------------------------------------
+
+### 2022
+
+quest_22$transporte <- tolower(iconv(quest_22$transporte, 
+                                     to ='ASCII//TRANSLIT', 
+                                     from = "UTF-8"))
+
+classOpcoes <- c("carro/moto proprio", 
+                 "transporte publico", "a pe", "bicicleta", 
+                 "carona com amigos", "taxi/aplicativo", 
+                 "servico fretado de van/onibus")
+
+quest_22$transporte[ !quest_22$transporte %in% classOpcoes ] <- "outro"
+
+quest_22$transporte <- factor(quest_22$transporte,
+                              levels = c("carro/moto proprio",
+                                         "transporte publico", "a pe",
+                                         "bicicleta", 
+                                         "carona com amigos", "taxi/aplicativo",
+                                         "servico fretado de van/onibus", 
+                                         "outro"))
+
+#----------------------------------------------------------------------
+
+### 2021
+quest_21$transporte <- tolower(iconv(quest_21$transporte, 
+                                     to ='ASCII//TRANSLIT', 
+                                     from = "UTF-8"))
+
+classOpcoes <- c("carro/moto proprio", 
+                 "transporte publico", "a pe", "bicicleta", 
+                 "carona com amigos", "taxi/aplicativo", 
+                 "servico fretado de van/onibus")
+
+quest_21$transporte[ !quest_21$transporte %in% classOpcoes ] <- "outro"
+
+quest_21$transporte <- factor(quest_21$transporte,
+                              levels = c("carro/moto proprio",
+                                         "transporte publico", "a pe",
+                                         "bicicleta", 
+                                         "carona com amigos", "taxi/aplicativo",
+                                         "servico fretado de van/onibus", 
+                                         "outro"))
+
+#----------------------------------------------------------------------
+
+### 2020
+quest_20$ln_tipoTransp <- tolower(iconv(quest_20$ln_tipoTransp, 
+                                     to ='ASCII//TRANSLIT', 
+                                     from = "UTF-8"))
+
+classOpcoes <- c("carro/moto proprio", 
+                 "transporte publico", "a pe", "bicicleta", 
+                 "carona com amigos", "taxi/aplicativo", 
+                 "servico fretado de van/onibus")
+
+quest_20$ln_tipoTransp[ !quest_20$ln_tipoTransp %in% classOpcoes ] <- "outro"
+
+quest_20$ln_tipoTransp <- factor(quest_20$ln_tipoTransp,
+                              levels = c("carro/moto proprio",
+                                         "transporte publico", "a pe",
+                                         "bicicleta", 
+                                         "carona com amigos", "taxi/aplicativo",
+                                         "servico fretado de van/onibus", 
+                                         "outro"))
+
+#----------------------------------------------------------------------
+
+### 2019
+quest_19$ln_tipoTransp <- tolower(iconv(quest_19$ln_tipoTransp, 
+                                     to ='ASCII//TRANSLIT', 
+                                     from = "UTF-8"))
+
+classOpcoes <- c("carro/moto proprio", 
+                 "transporte publico", "a pe", "bicicleta", 
+                 "carona com amigos", "taxi/aplicativo", 
+                 "servico fretado de van/onibus")
+
+quest_19$ln_tipoTransp[ !quest_19$ln_tipoTransp %in% classOpcoes ] <- "outro"
+
+quest_19$ln_tipoTransp <- factor(quest_19$ln_tipoTransp,
+                              levels = c("carro/moto proprio",
+                                         "transporte publico", "a pe",
+                                         "bicicleta", 
+                                         "carona com amigos", "taxi/aplicativo",
+                                         "servico fretado de van/onibus", 
+                                         "outro"))
+
+#----------------------------------------------------------------------
+
+## Tabelas de frequencia
+table1 <- freq_ord(quest_24$transporte)
+
+#----------------------------------------------------------------------
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander::pander(table1)
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+table1 <- freq_n_ord(quest_24$transporte)
+
+table1$Niveis <- c("Veículo Próprio", 
+                   "Transp. Público", 
+                   "A pé", "Bicicleta", 
+                   "Carona", "Táxi",
+                   "Van/ônibus", "Outro")
+
+
+ggplot(data = table1, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Locomoção")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE,}
+
+compara <- rbind(freq_n_ord(quest_24$transporte),
+                 freq_n_ord(quest_23$transporte),
+                 freq_n_ord(quest_22$transporte),
+                 freq_n_ord(quest_21$transporte),
+                 freq_n_ord(quest_20$ln_tipoTransp),
+                 freq_n_ord(quest_19$ln_tipoTransp))
+
+compara$Niveis <- c("Veículo Próprio", 
+                   "Transp. Público", 
+                   "A pé", "Bicicleta", 
+                   "Carona", "Táxi",
+                   "Van/ônibus", "Outro")
+
+compara$Ano <- c(rep('2024',8),rep('2023',8),
+                 rep('2022',8), rep('2021',8), 
+                 rep('2020',8), rep('2019',8))
+
+compara$Frequencia.relativa <- round(compara$Frequencia.relativa,2)
+
+ggplot(data = compara,
+       mapping = aes(x = Ano,
+                     y = Frequencia.relativa,
+                     group = Niveis,
+                     col = Niveis)) + 
+  geom_line() + geom_point()+
+  ylab("Proporção") +
+  xlab("") +
+  ggtitle("Locomoção")+
+  theme_classic() + theme(legend.position = 'top',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=20))+
+  theme(legend.title=element_blank())
+
+```
+
+---
+
+### Em média, quanto tempo você demorava ou demoraria para chegar a Universidade? {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+tempo_ies <- subset(quest_24, tempo_ies >= 0 & tempo_ies<=700)
+
+pander(tab_classes(tempo_ies$tempo_ies))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(tempo_ies$tempo_ies))
+pander(dispersao(tempo_ies$tempo_ies))
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+table <- as.data.frame(table(tempo_ies$tempo_ies))
+table$Var1 <- as.numeric(as.vector(table$Var1))
+
+# Plot
+ggplot(table, aes(x=Var1, y=Freq)) +
+  geom_point() + 
+  geom_segment(aes(x=Var1, 
+                   xend=Var1, 
+                   y=0, 
+                   yend=Freq),
+               lwd = 1.5)+
+  xlab("Tempo") +
+  ylab("Frequência") +
+  ggtitle("Tempo até a universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(tempo_ies, aes(x=tempo_ies)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  xlab("Tempo") +
+  ylab("Frequência") +
+  ggtitle("Tempo até a Universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = tempo_ies, 
+       mapping = aes(y=tempo_ies, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("") +
+  ylab("") +
+  ggtitle("Tempo até a Universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) #+coord_flip()
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = tempo_ies, 
+       mapping = aes(y=tempo_ies, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("") +
+  xlab("") +
+  ggtitle("Tempo até a Universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) +
+  geom_jitter(col=4, alpha = 0.5) #+coord_flip()
+```
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(tempo_ies, aes(x=tempo_ies)) +
+  geom_density(col=1,
+               lwd=1) + 
+  xlab("Tempo") +
+  ylab("Densidade") +
+  ggtitle("Tempo até a Universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 6
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(tempo_ies) + 
+  geom_histogram(aes(x=tempo_ies,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  geom_density(aes(x=tempo_ies,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  xlab("Tempo") +
+  ylab("Densidade") +
+  ggtitle("Tempo até a Universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 7
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(tempo_ies, aes(x=tempo_ies)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Tempo até a Universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = tempo_ies, 
+            mapping = aes(y=tempo_ies, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Tempo") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Gráfico 8
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(tempo_ies) + 
+  geom_histogram(aes(x=tempo_ies,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  geom_density(aes(x=tempo_ies,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  ylab("Densidade") +
+  xlab("") +
+  ggtitle("Tempo até a Universidade")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = tempo_ies, 
+            mapping = aes(y=tempo_ies, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Tempo") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+
+tempo_ies_24 <- subset(quest_24,tempo_ies>=0 & tempo_ies<=700)
+tempo_ies_23 <- subset(quest_23,tempo_ies>=0 & tempo_ies<=700)
+tempo_ies_22 <- subset(quest_22,tempo_ies>=0 & tempo_ies<=700)
+tempo_ies_21 <- subset(quest_21,tempo_ies>=0 & tempo_ies<=700)
+tempo_ies_20 <- subset(quest_20,tc_tempoPUniv>=0 & tc_tempoPUniv<=700)
+tempo_ies_19 <- subset(quest_19,tc_tempoPUniv>=0& tc_tempoPUniv<=700)
+
+tempo_ies <- data.frame(tempo_ies = c(tempo_ies_19$tc_tempoPUniv,
+                                      tempo_ies_20$tc_tempoPUniv,
+                                      tempo_ies_21$tempo_ies,
+                                      tempo_ies_22$tempo_ies,
+                                      tempo_ies_23$tempo_ies,
+                                      tempo_ies_24$tempo_ies
+                                      ),
+                        ano = c(rep(2019,nrow(tempo_ies_19)),
+                                rep(2020,nrow(tempo_ies_20)),
+                                rep(2021,nrow(tempo_ies_21)),
+                                rep(2022,nrow(tempo_ies_22)),
+                                rep(2023,nrow(tempo_ies_23)),
+                                rep(2024,nrow(tempo_ies_24))
+                                ))
+
+ggplot(data = tempo_ies, 
+       mapping = aes(x = factor(ano),
+                     y = tempo_ies)) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1,
+               fill = 'white')+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("Ano de resposta") +
+  ylab("Tempo até IES") +
+  ggtitle("Tempo até IES")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) +
+  coord_flip()
+
+```
+
+---
+
+### Em média, quantas vezes você usa táxi/aplicativo de transporte durante o mês? {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+app_transporte <- subset(quest_24, app_transporte >= 0 & app_transporte<=700)
+
+pander(tab_classes(app_transporte$app_transporte))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(app_transporte$app_transporte))
+pander(dispersao(app_transporte$app_transporte))
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+table <- as.data.frame(table(app_transporte$app_transporte))
+table$Var1 <- as.numeric(as.vector(table$Var1))
+
+# Plot
+ggplot(table, aes(x=Var1, y=Freq)) +
+  geom_point() + 
+  geom_segment(aes(x=Var1, 
+                   xend=Var1, 
+                   y=0, 
+                   yend=Freq),
+               lwd = 1.5)+
+  xlab("Vezes no mês") +
+  ylab("Frequência") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(app_transporte, aes(x=app_transporte)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  xlab("Vezes no mês") +
+  ylab("Frequência") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = app_transporte, 
+       mapping = aes(y=app_transporte, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("") +
+  ylab("") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) #+coord_flip()
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = app_transporte, 
+       mapping = aes(y=app_transporte, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("") +
+  xlab("") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) +
+  geom_jitter(col=4, alpha = 0.5) #+coord_flip()
+```
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(app_transporte, aes(x=app_transporte)) +
+  geom_density(col=1,
+               lwd=1) + 
+  xlab("Vezes no mês") +
+  ylab("Densidade") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 6
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(app_transporte) + 
+  geom_histogram(aes(x=app_transporte,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  geom_density(aes(x=app_transporte,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  xlab("Vezes no mês") +
+  ylab("Densidade") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 7
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(app_transporte, aes(x=app_transporte)) +
+  geom_histogram(col=1,
+                 lwd=1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = app_transporte, 
+            mapping = aes(y=app_transporte, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Vezes no mês") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Gráfico 8
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(app_transporte) + 
+  geom_histogram(aes(x=app_transporte,
+                     y=..density..), 
+                 position="identity",
+                 col = 1,
+                 lwd = 1,
+                 breaks = hist(tempo_ies$tempo_ies, plot = FALSE)$breaks) + 
+  geom_density(aes(x=app_transporte,
+                   y=..density..),
+               col = 4,
+               lwd = 1) + 
+  ylab("Densidade") +
+  xlab("") +
+  ggtitle("Uso de aplicativos de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = app_transporte, 
+            mapping = aes(y=app_transporte, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Vezes no mês") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+#### Comparativo
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+
+app_transporte_24 <- subset(quest_24,app_transporte>=0 & app_transporte<=700)
+
+app_transporte_23 <- subset(quest_23,app_transporte>=0 & app_transporte<=700)
+
+app_transporte_22 <- subset(quest_22,app_transporte>=0 & app_transporte<=700)
+
+app_transporte_21 <- subset(quest_21,app_transporte>=0 & app_transporte<=700)
+
+app_transporte_20 <- subset(quest_20,td_qtddServTransp>=0 & tc_tempoPUniv<=700)
+
+app_transporte_19 <- subset(quest_19,td_qtddServTransp>=0& tc_tempoPUniv<=700)
+
+app_transporte <- data.frame(app_transporte = c(app_transporte_19$td_qtddServTransp,
+                        app_transporte_20$td_qtddServTransp,
+                        app_transporte_21$app_transporte,
+                        app_transporte_22$app_transporte,
+                        app_transporte_23$app_transporte,
+                        app_transporte_24$app_transporte
+                        ),
+           ano = c(rep(2019,nrow(app_transporte_19)),
+                   rep(2020,nrow(app_transporte_20)),
+                   rep(2021,nrow(app_transporte_21)),
+                   rep(2022,nrow(app_transporte_22)),
+                   rep(2023,nrow(app_transporte_23)),
+                   rep(2024,nrow(app_transporte_24))
+                   ))
+
+ggplot(data = app_transporte, 
+       mapping = aes(x = factor(ano),
+                     y = app_transporte)) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1,
+               fill = 'white')+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("Ano de resposta") +
+  ylab("Uso de apps de transporte") +
+  ggtitle("Uso de apps de transporte")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) +
+  coord_flip()
+
+```
+
+---
+
+### Possui animal de estimação? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE, warning=FALSE}
+
+# tratamento
+quest_24$pet <- tolower(iconv(quest_24$pet, 
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_24$pet <- gsub(",",";",quest_24$pet)
+
+# gerando vetor
+
+vet <- as.vector(cSplit(quest_24, 
+                        "pet", 
+                        sep = ";", 
+                      direction = "long")$pet)
+
+vet <- as.factor(vet)
+
+vet <- factor(vet,
+              levels = c("nao possuo",
+                 "cachorro",
+                 "gato",
+                 "passaro",
+                 "peixe",
+                 "tartaruga",
+                 "coelho",
+                 "outro"))
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+pander::pander(freq_ord(vet))
+
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+table2 <- freq_n_ord(vet)
+
+ggplot(data = table2, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table2$Frequencia)+ (max(table2$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Animal de estimação")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+---
+
+### Toca algum instrumento musical? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE, warning=FALSE}
+
+# tratamento
+quest_24$instrumento <- tolower(iconv(quest_24$instrumento, 
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_24$instrumento <- gsub(",",";",quest_24$instrumento)
+
+# gerando vetor
+
+vet <- as.vector(cSplit(quest_24, 
+                        "instrumento", 
+                        sep = ";", 
+                      direction = "long")$instrumento)
+
+vet <- as.factor(vet)
+
+vet <- factor(vet,
+              levels = c("nao toco nenhum instrumento",
+                 "violao",
+                 "guitarra",
+                 "teclado",
+                 "contrabaixo",
+                 "bateria",
+                 "piano",
+                 "flauta",
+                 "outro"))
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+pander::pander(freq_ord(vet))
+
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+table2 <- freq_n_ord(vet)
+
+table2$Niveis <- as.vector(table2$Niveis)
+
+table2$Niveis[1] <- 'nao'
+
+ggplot(data = table2, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table2$Frequencia)+ (max(table2$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Instrumento musical")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+---
+
+### De quais redes sociais você participa? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE, warning=FALSE}
+
+# tratamento
+quest_24$redes_sociais <- tolower(iconv(quest_24$redes_sociais, 
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_24$redes_sociais <- gsub(",",";",quest_24$redes_sociais)
+
+# gerando vetor
+
+vet <- as.vector(cSplit(quest_24, 
+                        "redes_sociais", 
+                        sep = ";", 
+                      direction = "long")$redes_sociais)
+
+vet <- as.factor(vet)
+
+vet <- factor(vet,
+              levels = c("facebook",
+                 "twitter",
+                 "google+",
+                 "instagram",
+                 "linkedin",
+                 "outras",
+                 "nenhuma"))
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+pander::pander(freq_ord(vet))
+
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+table2 <- freq_n_ord(vet)
+
+ggplot(data = table2, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table2$Frequencia)+ (max(table2$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Redes sociais")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+---
+
+### Você pratica atividade física regularmente? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE}
+quest_24$atv_fisica_reg <- tolower(iconv(quest_24$atv_fisica_reg,
+                                      to ='ASCII//TRANSLIT', 
+                                      from = "UTF-8"))
+
+quest_24$atv_fisica_reg <- factor(quest_24$atv_fisica_reg, 
+                               levels = tolower(c("sim", "nao")))
+
+
+# tabela
+
+table1 <- freq_ord(quest_24$atv_fisica_reg)
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+pander::pander(table1)
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+ggplot(data=table1, aes(x=reorder(Niveis, -Frequencia), 
+                       y=Frequencia#, 
+                       #fill = Niveis
+                       )) + 
+  geom_bar(stat="identity", 
+           col=1,
+           lwd=1)+
+  ylim(c(0, 
+         (max(table1$Frequencia)+ (max(table1$Frequencia)*0.2))))+
+  geom_text(aes(label=Frequencia), 
+            vjust=-1, 
+            color=1, 
+            size=8)+
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Atividade física")+
+  theme_classic() + theme(legend.position = 'none',
+    plot.title = element_text(family = "Helvetica", 
+                              face = "bold", 
+                              size = (20),
+                              hjust = 0.5),
+    axis.title = element_text(face = "bold",
+                              size = 15),
+    #axis.text = element_blank(),
+    legend.title = element_blank(),
+    text = element_text(size=15)) 
+```
+
+---
+
+### Quantas vezes por semana você se exercita? {.tabset .tabset-fade .tabset-pills}
+
+---
+
+#### Tabela 1
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+atv_fisica_n <- subset(quest_24, atv_fisica_n >= 0 & atv_fisica_n<=7)
+
+pander(freq_n_ord(atv_fisica_n$atv_fisica_n))
+```
+</center>
+
+---
+
+#### Tabela 2
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+pander(posicao(atv_fisica_n$atv_fisica_n))
+pander(dispersao(atv_fisica_n$atv_fisica_n))
+```
+</center>
+
+---
+
+#### Gráfico 1
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+table <- as.data.frame(table(atv_fisica_n$atv_fisica_n))
+table$Var1 <- as.numeric(as.vector(table$Var1))
+
+# Plot
+ggplot(table, aes(x=Var1, y=Freq)) +
+  geom_point() + 
+  geom_segment(aes(x=Var1, 
+                   xend=Var1, 
+                   y=0, 
+                   yend=Freq),
+               lwd = 1.5)+
+  xlab("Vezes na semana") +
+  ylab("Frequência") +
+  ggtitle("Atividade física semanal")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 2
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(atv_fisica_n, aes(x=atv_fisica_n)) +
+  geom_bar(col=1,
+                 lwd=1) + 
+  xlab("Vezes na semana") +
+  ylab("Frequência") +
+  ggtitle("Atividade física semanal")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 3
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = atv_fisica_n, 
+       mapping = aes(y=atv_fisica_n, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  xlab("") +
+  ylab("") +
+  ggtitle("Atividade física semanal")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) #+coord_flip()
+```
+
+---
+
+#### Gráfico 4
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(data = atv_fisica_n, 
+       mapping = aes(y=atv_fisica_n, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("") +
+  xlab("") +
+  ggtitle("Atividade física semanal")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=15)) +
+  geom_jitter(col=4, alpha = 0.5) #+coord_flip()
+```
+
+---
+
+#### Gráfico 5
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+ggplot(atv_fisica_n, aes(x=atv_fisica_n)) +
+  geom_density(col=1,
+               lwd=1) + 
+  xlab("Vezes na semana") +
+  ylab("Densidade") +
+  ggtitle("Atividade física semanal")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15)) 
+```
+
+---
+
+#### Gráfico 6
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE, warning=FALSE}
+p1 = ggplot(atv_fisica_n, aes(x=atv_fisica_n)) +
+  geom_bar(col=1,
+                 lwd=1) + 
+  ylab("Frequência") +
+  xlab("") +
+  ggtitle("Atividade física semanal")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          text = element_text(size=15))
+
+p2 = ggplot(data = atv_fisica_n, 
+            mapping = aes(y=atv_fisica_n, x='1')) +
+  stat_boxplot(geom ='errorbar')+
+  geom_boxplot(alpha = 1)+
+  stat_summary(fun.y=mean, 
+               geom="point", 
+               shape=20, 
+               size=3, 
+               color="red", 
+               fill="red")+ 
+  ylab("Vezes na semana") +
+  xlab("") +
+  #ggtitle("Titulo")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.y=element_blank(),
+                          text = element_text(size=15)) +coord_flip()
+
+ggarrange(p1, p2, 
+          heights = c(2, 1), 
+          align = "hv", 
+          ncol = 1, 
+          nrow = 2)
+```
+
+---
+
+### Qual atividade você pratica? {.tabset .tabset-fade .tabset-pills}
+
+```{r, echo=FALSE, warning=FALSE}
+
+# tratamento
+quest_24$atv_fisica_qual <- tolower(iconv(quest_24$atv_fisica_qual, 
+                                   to ='ASCII//TRANSLIT', 
+                                   from = "UTF-8"))
+
+quest_24$atv_fisica_qual <- gsub(",",";",quest_24$atv_fisica_qual)
+
+# gerando vetor
+
+vet <- as.vector(cSplit(quest_24, 
+                        "atv_fisica_qual", 
+                        sep = ";", 
+                      direction = "long")$atv_fisica_qual)
+
+classOpcoes <- c("nenhuma",
+                 "caminhada",
+                 "corrida",
+                 "ciclismo",
+                 "musculacao",
+                 "pilates",
+                 "natacao",
+                 "futebol",
+                 "volei",
+                 "basquete")
+
+
+vet[ !vet %in% classOpcoes ] <- "outro"
+
+vet <- as.factor(vet)
+
+vet <- factor(vet,
+              levels = c("nenhuma",
+                 "caminhada",
+                 "corrida",
+                 "ciclismo",
+                 "musculacao",
+                 "pilates",
+                 "natacao",
+                 "futebol",
+                 "volei",
+                 "basquete",
+                 "outro"))
+
+```
+
+
+---
+
+#### Tabela
+
+<center>
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+
+pander::pander(freq_ord(vet))
+
+```
+</center>
+
+---
+
+#### Gráfico
+
+```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
+table2 <- freq_n_ord(vet)
+
+ggplot(data = table2, aes(x = reorder(Niveis, Frequencia), 
+                          y = Frequencia)) +
+  geom_bar(stat = 'identity',
+           col = 1,
+           lwd = 1) +  
+  ylim(c(0, 
+         (max(table2$Frequencia)+ (max(table2$Frequencia)*0.1))))+
+  coord_flip() +
+  geom_text(aes(label = Frequencia),
+            hjust=-0.5, 
+            color=1, 
+            size=5)+
+  ylab("") +
+  xlab("") +
+  ggtitle("Atividade física")+
+  theme_classic() + theme(legend.position = 'none',
+                          plot.title = element_text(family = "Helvetica", 
+                                                    face = "bold", 
+                                                    size = (20),
+                                                    hjust = 0.5),
+                          axis.title = element_text(face = "bold",
+                                                    size = 15),
+                          axis.text.x=element_blank(),
+                          text = element_text(size=20))
+```
+
+
+---
+
+###
+
+
+<center>
+
+<table><tr>
+
+<td> <img src="img/dest-texto-2.png" alt="Drawing" style="width: 250px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/transversais.png" alt="Drawing" style="width: 300px;"/> </td>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+
+<td> <img src="img/ufpr-transparent-600px.png" alt="Drawing" style="width: 200px;"/> </td>
+
+</center>
+
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

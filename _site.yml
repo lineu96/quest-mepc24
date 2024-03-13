@@ -1,0 +1,96 @@
+name: "MEPC"
+
+output_dir: "."
+
+navbar:
+  type: inverse
+  title: "MEPC 2024"
+
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+
+    - text: "Introdução"
+      icon: fa-play
+      menu:
+
+        - text: "---------" 
+
+        - text: "Um pouco sobre questionários"
+          icon: fa-arrow-right
+          href: 0-questionarios.html
+
+        - text: "Um pouco sobre análise exploratória"
+          icon: fa-arrow-right
+          href: 0-exploratoria.html
+
+        - text: "---------" 
+
+      
+    - text: "Análise do questionário"
+      icon: fa-bar-chart
+      menu:
+
+        - text: "---------" 
+
+        - text: "Questões acadêmicas"
+          icon: fa-arrow-right
+          href: 1-acad.html
+
+        - text: "Questões pessoais"
+          icon: fa-arrow-right
+          href: 2-aluno.html
+          
+        - text: "Questões extra"
+          icon: fa-arrow-right
+          href: 3-extra.html
+          
+        - text: "Análises bivariadas"
+          icon: fa-arrow-right
+          href: 4-bivar.html
+
+        - text: "---------" 
+      
+    - text: "Material extra"
+      icon: fa-plus
+      menu:
+        
+        - text: "Dados"
+          icon: fa-arrow-right
+          href: https://github.com/lineu96/mepc23/blob/master/respostas/mepc23%20(respostas)%20-%20Respostas%20ao%20formul%C3%A1rio%201.csv
+
+        - text: "Como gerar um relatório html"
+          icon: fa-arrow-right
+          href: exemplo.html
+
+        - text: "---------" 
+        
+  right:
+    - text: "Lineu A.C.F"
+      icon: fa-user 
+      href: https://lineu96.github.io/
+      
+    - icon: fa-github 
+      href: https://github.com/lineu96
+
+        
+output:
+  html_document:
+    theme: flatly
+    # cerulean 
+    highlight: textmate
+    #include:
+    #  after_body: footer.html
+    #css: styles.css
+
+    # THEMES
+    # default, cerulean, journal, 
+    # flatly, darkly, readable, 
+    # spacelab, united, cosmo, 
+    # lumen, paper, sandstone, 
+    # simplex, and yeti
+    includes:
+      
+      before_body: header.html
+      
