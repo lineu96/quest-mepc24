@@ -52,8 +52,8 @@ knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
 ```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
 
 quest_24$indica_foto <- c(rep('C/ barba', 114),
-                          rep('S/ barba', nrow(quest_24)- 114)#,
-                          #rep('C/ barba', 117),
+                          rep('S/ barba', 186),
+                          rep('C/ barba', 63)#,
                           #rep('S/ barba', 135)
                           ) 
 
