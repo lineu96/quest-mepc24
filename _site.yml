@@ -58,7 +58,7 @@ navbar:
         
         - text: "Dados"
           icon: fa-arrow-right
-          href: https://github.com/lineu96/mepc23/blob/master/respostas/mepc23%20(respostas)%20-%20Respostas%20ao%20formul%C3%A1rio%201.csv
+          href: https://github.com/lineu96/quest-mepc24/blob/master/respostas/respostas-2024.csv
 
         - text: "Como gerar um relatório html"
           icon: fa-arrow-right
