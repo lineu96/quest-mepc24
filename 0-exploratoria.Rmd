@@ -52,7 +52,7 @@ Existem dois tipos de variáveis: as numéricas (**quantitativas**) e as não nu
 
 Podem ser:
 
- - **Discretas**: características mensuráveis que podem assumir apenas um número finito ou infinito contável de valores e, assim, somente fazem sentido valores inteiros.
+ - **Discretas**: características mensuráveis que podem assumir apenas um número finito ou infinito contável de valores.
  
  - **Contínuas**: características mensuráveis que assumem valores em uma escala contínua, isto é, na reta real.
 
@@ -66,7 +66,7 @@ Podem ser:
 
 ---
 
-Tendo isso em mente podemos começar a pensar em que medidas e gráficos podemos utilizar para representar nossas variáveis (análises univariadas) e também estudar a relação entre estas variáveis (análises bi, tri e multivariadas)
+Tendo isso em mente podemos começar a pensar em que medidas e gráficos podemos utilizar para representar nossas variáveis (análises univariadas) e também estudar a relação entre estas variáveis (análises bi, tri e multivariadas).
 
 ---
 
@@ -615,29 +615,6 @@ ggplot(table2,
   xlab("Variável categórica 1") +
   ylab("Proporção") +
   ggtitle("Barras empilhadas proporcionais para\n 2 variáveis categóricas")+
-  theme_classic() + theme(legend.position = 'top',
-                          plot.title = element_text(family = "Helvetica", 
-                                                    face = "bold", 
-                                                    size = (20),
-                                                    hjust = 0.5),
-                          axis.title = element_text(face = "bold",
-                                                    size = 15),
-                          #axis.text = element_blank(),
-                          #legend.title = element_blank(),
-                          text = element_text(size=15)) 
-```
-
----
-
-##### Gráfico de mosaico para 2 variáveis categóricas
-
-```{r, comment=FALSE, message=FALSE, fig.align='center', warning=FALSE, echo = FALSE}
-ggplot(data = df) +
-  geom_mosaic(aes(x = product(categorica1, categorica2), 
-                  fill=categorica1)) +
-  xlab("Variável categórica 2") +
-  ylab("Variável categórica 1") +
-  ggtitle("Gráfico de mosaico para\n 2 variáveis categóricas")+
   theme_classic() + theme(legend.position = 'top',
                           plot.title = element_text(family = "Helvetica", 
                                                     face = "bold", 

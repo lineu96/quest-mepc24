@@ -1000,7 +1000,7 @@ Tabela de frequências sem agrupamento por faixas de valores.
 
 <center>
 ```{r, comment=FALSE, message=FALSE, fig.align='center', warning=TRUE, echo = FALSE}
-fim_grad <- subset(quest_24, fim_grad<2021 & fim_grad>1950)
+fim_grad <- subset(quest_24, fim_grad<2024 & fim_grad>1950)
 
 pander(freq_n_ord(fim_grad$fim_grad))
 ```
